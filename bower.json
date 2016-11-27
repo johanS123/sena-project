@@ -1,0 +1,14 @@
+{
+  "name": "sena-project",
+  "description": "SENA Final project",
+  "main": "app/index.js",
+  "authors": [
+    "AeroXMotion"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

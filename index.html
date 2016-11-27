@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="ai-edu">
+  <head>
+    <meta charset="UTF-8">
+
+    <!-- Page info -->
+    <title>{{ page.title }}</title>
+    <meta name="description" content="{{ page.description }}">
+    <meta name="author" content="{{ page.author }}">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/styles.css">
+
+    <!-- Scripts -->
+    <script src="vendor/jquery/dist/jquery.js"></script>
+    <script src="vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="assets/app.js"></script>
+  </head>
+  <body ng-controller="DashboardCtrl as dashboard">
+    <div class="container">
+      <ng-include ng-if="dashboard.user" src="'app/views/includes/navbar.html'"></ng-include>
+      <ui-view></ui-view>
+    </div>
+
+    <!-- <ng-include src="'app/views/includes/footer.html'"></ng-include> -->
+  </body>
+</html>
