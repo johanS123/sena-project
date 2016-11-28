@@ -25,10 +25,6 @@ function boot ($rootScope, $state, $localStorage) {
           redirect('home')
         break
 
-        case 'home':
-          redirect('login')
-        break
-
         case 'users':
           if (user.role !== 'administrador') {
             redirect('home')
