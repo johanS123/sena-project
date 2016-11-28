@@ -1,7 +1,8 @@
 export default class DashboardCtrl {
-  static $inject = ['$localStorage']
+  static $inject = ['$localStorage', '$state']
 
-  constructor ($localStorage) {
+  constructor ($localStorage, $state) {
+    this.$state = $state
     this.$localStorage = $localStorage
     this.user = this.$localStorage.user
   }
@@ -9,5 +10,6 @@ export default class DashboardCtrl {
   logout () {
     delete this.user
     delete this.$localStorage.user
+    this.$state.go('login')
   }
 }

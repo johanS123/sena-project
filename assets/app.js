@@ -122,9 +122,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var DashboardCtrl = function () {
-  function DashboardCtrl($localStorage) {
+  function DashboardCtrl($localStorage, $state) {
     _classCallCheck(this, DashboardCtrl);
 
+    this.$state = $state;
     this.$localStorage = $localStorage;
     this.user = this.$localStorage.user;
   }
@@ -134,13 +135,14 @@ var DashboardCtrl = function () {
     value: function logout() {
       delete this.user;
       delete this.$localStorage.user;
+      this.$state.go('login');
     }
   }]);
 
   return DashboardCtrl;
 }();
 
-DashboardCtrl.$inject = ['$localStorage'];
+DashboardCtrl.$inject = ['$localStorage', '$state'];
 exports.default = DashboardCtrl;
 
 },{}],5:[function(require,module,exports){
