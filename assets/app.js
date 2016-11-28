@@ -17,11 +17,37 @@ function boot($rootScope, $state, $localStorage) {
     author: 'AeroXMotion'
   };
 
-  function verifyAuth() {
+  function verifyAuth(e, toState) {
     var user = $localStorage.user;
-    var stateName = $state.current.name;
+    var stateName = toState.name;
 
-    // TODO: Validate auth
+    function redirect(state) {
+      e.preventDefault();
+      $state.go(state);
+    }
+
+    if (user) {
+      switch (stateName) {
+        case 'login':
+          redirect('home');
+          break;
+
+        case 'home':
+          redirect('login');
+          break;
+
+        case 'users':
+          if (user.role !== 'administrador') {
+            redirect('home');
+          }
+          break;
+
+        case 'courses':
+          break;
+      }
+    } else if (stateName !== 'login') {
+      redirect('login');
+    }
   }
 
   $rootScope.page = page;

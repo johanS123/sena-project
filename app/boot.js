@@ -10,31 +10,36 @@ function boot ($rootScope, $state, $localStorage) {
     author: 'AeroXMotion'
   }
 
-  function verifyAuth () {
+  function verifyAuth (e, toState) {
     const user = $localStorage.user
-    const stateName = $state.current.name
+    const stateName = toState.name
 
-    if (!user) {
-      return stateName !== 'login' && $state.go('login')
+    function redirect (state) {
+      e.preventDefault()
+      $state.go(state)
     }
 
-    switch (stateName) {
-      case 'login':
-        $state.go('home')
-      break
+    if (user) {
+      switch (stateName) {
+        case 'login':
+          redirect('home')
+        break
 
-      case 'home':
-        $state.go('login')
-      break
+        case 'home':
+          redirect('login')
+        break
 
-      case 'users':
-        if (user.role !== 'administrador') {
-          $state.go('home')
-        }
-      break
+        case 'users':
+          if (user.role !== 'administrador') {
+            redirect('home')
+          }
+        break
 
-      case 'courses':
-      break
+        case 'courses':
+        break
+      }
+    } else if (stateName !== 'login') {
+      redirect('login')
     }
   }
 
