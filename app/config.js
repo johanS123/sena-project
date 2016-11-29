@@ -26,7 +26,7 @@ function config ($stateProvider) {
   const coursesState = {
     name: 'courses',
     url: '/courses',
-    controller: 'CourseCtrl as course',
+    controller: 'CoursesCtrl as courses',
     templateUrl: 'app/views/courses.html'
   }
 

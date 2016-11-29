@@ -10,7 +10,7 @@ import DashboardCtrl from './controllers/dashboard'
 import LoginCtrl from './controllers/login'
 import UserCtrl from './controllers/modals/user'
 import UsersCtrl from './controllers/users'
-import CourseCtrl from './controllers/course'
+import CoursesCtrl from './controllers/courses'
 
 // Configuration
 import config from './config'
@@ -24,5 +24,5 @@ angular
   .controller('LoginCtrl', LoginCtrl)
   .controller('UsersCtrl', UsersCtrl)
   .controller('UserCtrl', UserCtrl)
-  .controller('CourseCtrl', CourseCtrl)
+  .controller('CoursesCtrl', CoursesCtrl)
   .run(boot)

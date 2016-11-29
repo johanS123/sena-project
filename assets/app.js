@@ -85,7 +85,7 @@ function config($stateProvider) {
   var coursesState = {
     name: 'courses',
     url: '/courses',
-    controller: 'CourseCtrl as course',
+    controller: 'CoursesCtrl as courses',
     templateUrl: 'app/views/courses.html'
   };
 
@@ -96,19 +96,56 @@ function config($stateProvider) {
 }
 
 },{}],3:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CourseCtrl = function CourseCtrl() {
-  _classCallCheck(this, CourseCtrl);
-};
+var CoursesCtrl = function () {
+  function CoursesCtrl($http, $scope) {
+    _classCallCheck(this, CoursesCtrl);
 
-exports.default = CourseCtrl;
+    this._url = '/sena-project/api/courses.php';
+    this.$http = $http;
+    this.$scope = $scope;
+    this._refreshData();
+  }
+
+  _createClass(CoursesCtrl, [{
+    key: '_refreshData',
+    value: function _refreshData() {
+      var _this = this;
+
+      this.$http.get(this._url).then(function (res) {
+        _this.all = res.data;
+      });
+    }
+  }, {
+    key: 'save',
+    value: function save(course) {
+      var _this2 = this;
+
+      this.$http.post(this._url, course).then(function () {
+        _this2.$scope.dashboard.action = {
+          successfully: true,
+          message: 'Curso creado exitosamente'
+        };
+
+        _this2._refreshData();
+      });
+    }
+  }]);
+
+  return CoursesCtrl;
+}();
+
+CoursesCtrl.$inject = ['$http', '$scope'];
+exports.default = CoursesCtrl;
 
 },{}],4:[function(require,module,exports){
 'use strict';
@@ -387,9 +424,9 @@ var _users = require('./controllers/users');
 
 var _users2 = _interopRequireDefault(_users);
 
-var _course = require('./controllers/course');
+var _courses = require('./controllers/courses');
 
-var _course2 = _interopRequireDefault(_course);
+var _courses2 = _interopRequireDefault(_courses);
 
 var _config = require('./config');
 
@@ -406,11 +443,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // Configuration
 // Libraries
-_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CourseCtrl', _course2.default).run(_boot2.default);
+_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).run(_boot2.default);
 
 // Controllers
 
-},{"./boot":1,"./config":2,"./controllers/course":3,"./controllers/dashboard":4,"./controllers/login":5,"./controllers/modals/user":6,"./controllers/users":7,"angular":15,"angular-resource":10,"angular-ui-bootstrap":12,"angular-ui-router":13,"ngstorage":16}],9:[function(require,module,exports){
+},{"./boot":1,"./config":2,"./controllers/courses":3,"./controllers/dashboard":4,"./controllers/login":5,"./controllers/modals/user":6,"./controllers/users":7,"angular":15,"angular-resource":10,"angular-ui-bootstrap":12,"angular-ui-router":13,"ngstorage":16}],9:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org

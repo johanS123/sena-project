@@ -1,0 +1,41 @@
+<div class="container">
+  <h1 class="text-center">Gestión de cursos</h1>
+
+  <div class="col-md-6">
+    <form ng-submit="courses.save(course)" novalidate>
+      <div class="form-group">
+        <input type="text" ng-model="course.name" class="form-control" placeholder="Nombre del curso">
+      </div>
+
+      <div class="form-group">
+        <input type="datetime-local" ng-model="course.date_due" class="form-control" placeholder="Hora y fecha de asistencia">
+      </div>
+
+      <button type="submit" class="btn btn-info">Guardar</button>
+    </form>
+  </div>
+
+  <div class="col-md-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Fecha asistencia</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr ng-if="!courses.all.length">
+          <td colspan="3">No existen cursos registrados</td>
+        </tr>
+
+        <tr ng-repeat="course in courses.all">
+          <td>{{ course.id }}</td>
+          <td>{{ course.name }}</td>
+          <td>{{ course.date_due }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
