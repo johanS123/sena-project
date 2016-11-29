@@ -122,15 +122,34 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var DashboardCtrl = function () {
-  function DashboardCtrl($localStorage, $state) {
+  function DashboardCtrl($localStorage, $state, $uibModal) {
     _classCallCheck(this, DashboardCtrl);
 
     this.$state = $state;
     this.$localStorage = $localStorage;
+    this.$uibModal = $uibModal;
     this.user = this.$localStorage.user;
   }
 
   _createClass(DashboardCtrl, [{
+    key: 'openProfileModal',
+    value: function openProfileModal() {
+      var _this = this;
+
+      this.$uibModal.open({
+        controller: 'UserCtrl as user',
+        templateUrl: 'app/views/modals/user.html',
+        resolve: {
+          title: function title() {
+            return 'Modificar perfil';
+          },
+          data: this.user
+        }
+      }).result.then(function (action) {
+        _this.action = action;
+      });
+    }
+  }, {
     key: 'logout',
     value: function logout() {
       delete this.user;
@@ -142,7 +161,7 @@ var DashboardCtrl = function () {
   return DashboardCtrl;
 }();
 
-DashboardCtrl.$inject = ['$localStorage', '$state'];
+DashboardCtrl.$inject = ['$localStorage', '$state', '$uibModal'];
 exports.default = DashboardCtrl;
 
 },{}],5:[function(require,module,exports){
@@ -263,11 +282,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UsersCtrl = function () {
-  function UsersCtrl($http, $uibModal) {
+  function UsersCtrl($http, $uibModal, $scope) {
     _classCallCheck(this, UsersCtrl);
 
     this.$uibModal = $uibModal;
     this.$http = $http;
+    this.$scope = $scope;
     this._refreshData();
   }
 
@@ -299,8 +319,7 @@ var UsersCtrl = function () {
           data: data
         }
       }).result.then(function (action) {
-        console.log(action);
-        _this2.action = action;
+        _this2.$scope.dashboard.action = action;
         _this2._refreshData();
       }, function () {
         _this2._refreshData();
@@ -326,7 +345,7 @@ var UsersCtrl = function () {
   return UsersCtrl;
 }();
 
-UsersCtrl.$inject = ['$http', '$uibModal'];
+UsersCtrl.$inject = ['$http', '$uibModal', '$scope'];
 exports.default = UsersCtrl;
 
 },{}],8:[function(require,module,exports){

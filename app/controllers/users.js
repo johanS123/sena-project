@@ -1,9 +1,10 @@
 export default class UsersCtrl {
-  static $inject = ['$http', '$uibModal']
+  static $inject = ['$http', '$uibModal', '$scope']
 
-  constructor ($http, $uibModal) {
+  constructor ($http, $uibModal, $scope) {
     this.$uibModal = $uibModal
     this.$http = $http
+    this.$scope = $scope
     this._refreshData()
   }
 
@@ -24,8 +25,7 @@ export default class UsersCtrl {
         data: data
       }
     }).result.then(action => {
-      console.log(action)
-      this.action = action
+      this.$scope.dashboard.action = action
       this._refreshData()
     }, () => {
       this._refreshData()
