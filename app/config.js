@@ -19,7 +19,7 @@ function config ($stateProvider) {
   const usersState = {
     name: 'users',
     url: '/users',
-    controller: 'UserCtrl as user',
+    controller: 'UsersCtrl as users',
     templateUrl: 'app/views/users.html'
   }
 

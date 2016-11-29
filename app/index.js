@@ -8,7 +8,8 @@ import ngStorage from 'ngstorage'
 // Controllers
 import DashboardCtrl from './controllers/dashboard'
 import LoginCtrl from './controllers/login'
-import UserCtrl from './controllers/user'
+import UserCtrl from './controllers/modals/user'
+import UsersCtrl from './controllers/users'
 import CourseCtrl from './controllers/course'
 
 // Configuration
@@ -21,6 +22,7 @@ angular
   .config(config)
   .controller('DashboardCtrl', DashboardCtrl)
   .controller('LoginCtrl', LoginCtrl)
+  .controller('UsersCtrl', UsersCtrl)
   .controller('UserCtrl', UserCtrl)
   .controller('CourseCtrl', CourseCtrl)
   .run(boot)

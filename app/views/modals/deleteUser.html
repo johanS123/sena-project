@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="user.dismissModal()">&times;</button>
+  <h4 class="modal-title">{{ user.title }}</h4>
+</div>
+
+<div class="modal-body">
+  <h5>¿Seguro qué desea eliminar el usuario?</h5>
+
+  <p><strong>Nombres:</strong> {{ user.data.first_name }}</p>
+  <p><strong>Apellidos:</strong> {{ user.data.last_name }}</p>
+  <p><strong>Correo electrónico:</strong> {{ user.data.email }}</p>
+  <p><strong>Rol:</strong> {{ user.data.role }}</p>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-danger" ng-click="user.delete()">Eliminar</button>
+</div>
