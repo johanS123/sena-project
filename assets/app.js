@@ -89,13 +89,85 @@ function config($stateProvider) {
     templateUrl: 'app/views/courses.html'
   };
 
+  var assistsState = {
+    name: 'assists',
+    url: '/courses/:id/assists',
+    controller: 'AssistsCtrl as assists',
+    templateUrl: 'app/views/assists.html'
+  };
+
   $stateProvider.state(homeState);
   $stateProvider.state(loginState);
   $stateProvider.state(usersState);
   $stateProvider.state(coursesState);
+  $stateProvider.state(assistsState);
 }
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var AssistsCtrl = function () {
+  function AssistsCtrl($http, $stateParams) {
+    _classCallCheck(this, AssistsCtrl);
+
+    this._url = '/sena-project/api/assists.php';
+    this.$http = $http;
+    this.courseId = $stateParams.id;
+    this._refreshData();
+  }
+
+  _createClass(AssistsCtrl, [{
+    key: '_refreshData',
+    value: function _refreshData() {
+      var _this = this;
+
+      this.$http.get(this._url, { params: { id_course: this.courseId } }).then(function (res) {
+        console.log(res.data);
+        _this.all = res.data;
+      });
+    }
+  }, {
+    key: 'attended',
+    value: function attended(assistId, _attended) {
+      var _this2 = this;
+
+      this.$http.post(this._url, {
+        id: assistId,
+        attended: _attended
+      }).then(function (res) {
+        _this2._refreshData();
+      });
+    }
+  }, {
+    key: 'register',
+    value: function register(studentId) {
+      var _this3 = this;
+
+      this.$http.post(this._url, {
+        id_course: this.courseId,
+        id_user: studentId
+      }).then(function (res) {
+        console.log(res.data);
+        _this3._refreshData();
+      });
+    }
+  }]);
+
+  return AssistsCtrl;
+}();
+
+AssistsCtrl.$inject = ['$http', '$stateParams'];
+exports.default = AssistsCtrl;
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -147,7 +219,7 @@ var CoursesCtrl = function () {
 CoursesCtrl.$inject = ['$http', '$scope'];
 exports.default = CoursesCtrl;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -201,7 +273,7 @@ var DashboardCtrl = function () {
 DashboardCtrl.$inject = ['$localStorage', '$state', '$uibModal'];
 exports.default = DashboardCtrl;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -247,7 +319,7 @@ var LoginCtrl = function () {
 LoginCtrl.$inject = ['$http', '$state', '$scope', '$localStorage'];
 exports.default = LoginCtrl;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -307,7 +379,7 @@ var UserCtrl = function () {
 UserCtrl.$inject = ['$http', '$uibModalInstance', 'data', 'title'];
 exports.default = UserCtrl;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -385,7 +457,7 @@ var UsersCtrl = function () {
 UsersCtrl.$inject = ['$http', '$uibModal', '$scope'];
 exports.default = UsersCtrl;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var _angular = require('angular');
@@ -428,6 +500,10 @@ var _courses = require('./controllers/courses');
 
 var _courses2 = _interopRequireDefault(_courses);
 
+var _assists = require('./controllers/assists');
+
+var _assists2 = _interopRequireDefault(_assists);
+
 var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
@@ -442,12 +518,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // Configuration
-// Libraries
-_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).run(_boot2.default);
+
 
 // Controllers
+_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).run(_boot2.default); // Libraries
 
-},{"./boot":1,"./config":2,"./controllers/courses":3,"./controllers/dashboard":4,"./controllers/login":5,"./controllers/modals/user":6,"./controllers/users":7,"angular":15,"angular-resource":10,"angular-ui-bootstrap":12,"angular-ui-router":13,"ngstorage":16}],9:[function(require,module,exports){
+},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/login":6,"./controllers/modals/user":7,"./controllers/users":8,"angular":16,"angular-resource":11,"angular-ui-bootstrap":13,"angular-ui-router":14,"ngstorage":17}],10:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1310,11 +1386,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":9}],11:[function(require,module,exports){
+},{"./angular-resource":10}],12:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -8945,12 +9021,12 @@ angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().
 angular.module('ui.bootstrap.tooltip').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTooltipCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'); angular.$$uibTooltipCss = true; });
 angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); angular.$$uibTimepickerCss = true; });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTypeaheadCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); angular.$$uibTypeaheadCss = true; });
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('./dist/ui-bootstrap-tpls');
 
 module.exports = 'ui.bootstrap';
 
-},{"./dist/ui-bootstrap-tpls":11}],13:[function(require,module,exports){
+},{"./dist/ui-bootstrap-tpls":12}],14:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.2
@@ -13560,7 +13636,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -45945,11 +46021,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":14}],16:[function(require,module,exports){
+},{"./angular":15}],17:[function(require,module,exports){
 (function (root, factory) {
   'use strict';
 
@@ -46188,4 +46264,4 @@ module.exports = angular;
 
 }));
 
-},{"angular":15}]},{},[8]);
+},{"angular":16}]},{},[9]);

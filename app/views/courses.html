@@ -21,7 +21,7 @@
         <tr>
           <th>Id</th>
           <th>Nombre</th>
-          <th>Fecha asistencia</th>
+          <th>Fecha inicio</th>
         </tr>
       </thead>
 
@@ -32,7 +32,7 @@
 
         <tr ng-repeat="course in courses.all">
           <td>{{ course.id }}</td>
-          <td>{{ course.name }}</td>
+          <td><a ui-sref="assists({ id: course.id })">{{ course.name }}</a></td>
           <td>{{ course.date_due }}</td>
         </tr>
       </tbody>

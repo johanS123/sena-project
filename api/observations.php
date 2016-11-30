@@ -6,8 +6,27 @@ $observations_entity = new Entity('observations');
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        $sth = $observations_entity->select('*')->execute();
-        $observations = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $user = $users_entity
+            ->select('id')
+            ->where([
+                'id' => ':id'
+            ])
+            ->execute([
+                ':id' => $req->id_user
+            ])
+            ->fetch(PDO::FETCH_OBJ);
+
+        $observations = $observations_entity
+            ->select(''/* campos */)
+            ->where([
+                'id_user' => ':id_user'
+            ])
+            ->execute([
+                ':id_user' => $req->id_user
+            ])
+            ->fetchAll(PDO::FETCH_OBJ);
+
+        // La respuesta en json aquí
 
         if ($observations) {
             end_json($observations, 200);

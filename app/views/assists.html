@@ -1,0 +1,36 @@
+<div class="container">
+  <h1 class="text-center">Gestión de asistencias</h1>
+
+  <form ng-submit="assists.register(studentId)" class="form-inline">
+    Registrar un alumno a este curso:
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Id del alumno" ng-model="studentId">
+      <button type="submit" class="btn btn-success">Registrar</button>
+    </div>
+  </form>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Hora de llegada</th>
+        <th colspan="2">Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-if="!assists.all.length">
+        <td colspan="4" class="text-center">No hay alumnos registrados al curso seleccionado</td>
+      </tr>
+
+      <tr ng-repeat="assist in assists.all" ng-class="{ 'success': assist.attended === '1', 'danger': assist.attended === '0' }">
+        <td>{{ assist.first_name }}</td>
+        <td>{{ assist.last_name }}</td>
+        <td>{{ assist.date_arrived }}</td>
+        <td><button type="button" class="btn btn-success" ng-click="assists.attended(assist.id, 1)" ng-disabled="assist.attended === '1' || assist.attended === '0'">Asistió</button></td>
+        <td><button type="button" class="btn btn-danger" ng-click="assists.attended(assist.id, 0)" ng-disabled="assist.attended === '1' || assist.attended === '0'">No asistió</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

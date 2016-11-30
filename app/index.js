@@ -11,6 +11,7 @@ import LoginCtrl from './controllers/login'
 import UserCtrl from './controllers/modals/user'
 import UsersCtrl from './controllers/users'
 import CoursesCtrl from './controllers/courses'
+import AssistsCtrl from './controllers/assists'
 
 // Configuration
 import config from './config'
@@ -25,4 +26,5 @@ angular
   .controller('UsersCtrl', UsersCtrl)
   .controller('UserCtrl', UserCtrl)
   .controller('CoursesCtrl', CoursesCtrl)
+  .controller('AssistsCtrl', AssistsCtrl)
   .run(boot)

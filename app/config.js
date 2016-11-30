@@ -30,8 +30,16 @@ function config ($stateProvider) {
     templateUrl: 'app/views/courses.html'
   }
 
+  const assistsState = {
+    name: 'assists',
+    url: '/courses/:id/assists',
+    controller: 'AssistsCtrl as assists',
+    templateUrl: 'app/views/assists.html'
+  }
+
   $stateProvider.state(homeState)
   $stateProvider.state(loginState)
   $stateProvider.state(usersState)
   $stateProvider.state(coursesState)
+  $stateProvider.state(assistsState)
 }
