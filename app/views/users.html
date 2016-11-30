@@ -1,5 +1,9 @@
 <h1 class="text-center">Gestión de usuarios</h1>
 
+<p>
+  <input type="text" ng-model="query" placeholder="Buscar..." class="form-control">
+</p>
+
 <table class="table">
   <thead>
     <tr>
@@ -17,7 +21,7 @@
       <td class="text-center" colspan="7">No hay usuarios que mostrar</td>
     </tr>
 
-    <tr ng-repeat="user in users.all" ng-if="user.id !== dashboard.user.id">
+    <tr ng-repeat="user in users.all | filter:query" ng-if="user.id !== dashboard.user.id">
       <td>{{ user.id }}</td>
       <td>{{ user.first_name }}</td>
       <td>{{ user.last_name }}</td>
