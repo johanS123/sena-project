@@ -22,8 +22,7 @@ export default class DashboardCtrl {
   }
 
   dismissAlert () {
-    console.log('Alerta cerrada')
-    this.action.successfully = false
+    delete this.action
   }
 
   logout () {
