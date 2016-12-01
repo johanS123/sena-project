@@ -39,4 +39,8 @@ export default class AssistsCtrl {
         this._refreshData()
       })
   }
+
+  exportPDF () {
+    print()
+  }
 }

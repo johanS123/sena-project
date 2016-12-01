@@ -178,6 +178,11 @@ var AssistsCtrl = function () {
         _this3._refreshData();
       });
     }
+  }, {
+    key: 'exportPDF',
+    value: function exportPDF() {
+      print();
+    }
   }]);
 
   return AssistsCtrl;

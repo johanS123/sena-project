@@ -1,41 +1,39 @@
-<div class="container">
-  <h1 class="text-center">Gestión de cursos</h1>
+<h1 class="text-center">Gestión de cursos</h1>
 
-  <div class="col-md-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Nombre</th>
-          <th>Fecha inicio</th>
-        </tr>
-      </thead>
+<div class="col-md-12">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Fecha inicio</th>
+      </tr>
+    </thead>
 
-      <tbody>
-        <tr ng-if="!courses.all.length">
-          <td colspan="3">No existen cursos registrados</td>
-        </tr>
+    <tbody>
+      <tr ng-if="!courses.all.length">
+        <td colspan="3">No existen cursos registrados</td>
+      </tr>
 
-        <tr ng-repeat="course in courses.all">
-          <td>{{ course.id }}</td>
-          <td><a ui-sref="assists({ id: course.id })">{{ course.name }}</a></td>
-          <td>{{ course.date_due }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      <tr ng-repeat="course in courses.all">
+        <td>{{ course.id }}</td>
+        <td><a ui-sref="assists({ id: course.id })">{{ course.name }}</a></td>
+        <td>{{ course.date_due }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
-  <div class="col-md-12">
-    <form ng-if="dashboard.user.role === 'administrador'" name="courseForm" ng-submit="courses.save(course)" novalidate>
-      <div class="form-group">
-        <input name="name" type="text" required ng-model="course.name" class="form-control" placeholder="Nombre del curso">
-      </div>
+<div class="col-md-12">
+  <form ng-if="dashboard.user.role === 'administrador'" name="courseForm" ng-submit="courses.save(course)" novalidate>
+    <div class="form-group">
+      <input name="name" type="text" required ng-model="course.name" class="form-control" placeholder="Nombre del curso">
+    </div>
 
-      <div class="form-group">
-        <input name="date_due" type="datetime-local" required ng-model="course.date_due" class="form-control" placeholder="Hora y fecha de asistencia">
-      </div>
+    <div class="form-group">
+      <input name="date_due" type="datetime-local" required ng-model="course.date_due" class="form-control" placeholder="Hora y fecha de asistencia">
+    </div>
 
-      <button type="submit" class="btn btn-info" ng-disabled="courseForm.$invalid">Guardar</button>
-    </form>
-  </div>
+    <button type="submit" class="btn btn-info" ng-disabled="courseForm.$invalid">Guardar</button>
+  </form>
 </div>
