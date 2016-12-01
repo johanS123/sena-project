@@ -17,7 +17,7 @@ CREATE TABLE users(
 CREATE TABLE courses(
   id INT(11) AUTO_INCREMENT NOT NULL,
   name VARCHAR(50) NOT NULL,
-  data_due DATETIME NOT NULL,
+  date_due DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 

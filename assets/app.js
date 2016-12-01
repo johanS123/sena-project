@@ -218,7 +218,8 @@ var CoursesCtrl = function () {
     value: function save(course) {
       var _this2 = this;
 
-      this.$http.post(this._url, course).then(function () {
+      this.$http.post(this._url, course).then(function (res) {
+        console.log(res);
         _this2.$scope.dashboard.action = {
           successfully: true,
           message: 'Curso creado exitosamente'

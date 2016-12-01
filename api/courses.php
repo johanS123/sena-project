@@ -22,7 +22,5 @@ switch ($_SERVER['REQUEST_METHOD']) {
             ':name' => $req->name,
             ':date_due' => date('Y-m-d H:i:s', strtotime($req->date_due))
         ]);
-
-        http_response_code(201);
     break;
 }

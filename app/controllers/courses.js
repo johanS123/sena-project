@@ -19,7 +19,8 @@ export default class CoursesCtrl {
   save (course) {
     this.$http
       .post(this._url, course)
-      .then(() => {
+      .then(res => {
+        console.log(res)
         this.$scope.dashboard.action = {
           successfully: true,
           message: 'Curso creado exitosamente'
