@@ -37,8 +37,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             'email' => ':email',
             'password' => ':password',
             'role' => ':role',
-            'last_login' => ':last_login',
-            'actions_performed' => ':actions_performed'
+            'last_login' => ':last_login'
         ];
 
         if (property_exists($req, 'id')) {
@@ -53,8 +52,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             ':email' => $req->email,
             ':password' => password_hash($req->password, PASSWORD_DEFAULT),
             ':role' => $req->role,
-            ':last_login' => date('Y-m-d H:i:s'),
-            ':actions_performed' => property_exists($req, 'actions_performed') ? $req->actions_performed : 0
+            ':last_login' => date('Y-m-d H:i:s')
         ]);
 
         http_response_code(201);
