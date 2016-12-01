@@ -37,9 +37,25 @@ function config ($stateProvider) {
     templateUrl: 'app/views/assists.html'
   }
 
+  const observationsState = {
+    name: 'observations',
+    url: '/observations',
+    controller: 'ObservationsCtrl as observations',
+    templateUrl: 'app/views/observations.html'
+  }
+
+  const documentsState = {
+    name: 'documents',
+    url: '/documents',
+    controller: 'DocumentsCtrl as documents',
+    templateUrl: 'app/views/documents.html'
+  }
+
   $stateProvider.state(homeState)
   $stateProvider.state(loginState)
   $stateProvider.state(usersState)
   $stateProvider.state(coursesState)
   $stateProvider.state(assistsState)
+  $stateProvider.state(observationsState)
+  $stateProvider.state(documentsState)
 }

@@ -1,0 +1,31 @@
+<h1 class="text-center">Gestión de observaciones</h1>
+
+<div class="col-md-12">
+  <h2>Observaciones</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Tipo</th>
+        <th>Descripción</th>
+        <th>Seguimiento</th>
+        <th>Fecha</th>
+        <th>Estudiante</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="observation in observations.all">
+        <td>{{ observation.id }}</td>
+        <td>{{ observation.type }}</td>
+        <td>{{ observation.description }}</td>
+        <td>{{ observation.tracing }}</td>
+        <td>{{ observation.date }}</td>
+        <td>{{ observation.first_name }} {{ observation.last_name }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button type="button" class="btn btn-success" ng-click="observations.openModal()">Crear observación</button>
+</div>

@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="observation.dismissModal()">&times;</button>
+  <h4>Crear observación</h4>
+</div>
+
+<form ng-submit="observation.save()">
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="user">Id del usuario:</label>
+      <input ng-model="observation.data.id_user" id="user" type="number" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="type">Tipo:</label>
+      <select id="type" ng-model="observation.data.type" class="form-control">
+        <option value="">Tipo de observación</option>
+        <option value="academica">Académica</option>
+        <option value="convivencial">Convivencial</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Observación:</label>
+      <textarea id="description" ng-model="observation.data.description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="tracing">Seguimiento:</label>
+      <textarea id="tracing" ng-model="observation.data.tracing" class="form-control"></textarea>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="submit">Guardar</button>
+  </div>
+</form>

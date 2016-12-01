@@ -96,11 +96,27 @@ function config($stateProvider) {
     templateUrl: 'app/views/assists.html'
   };
 
+  var observationsState = {
+    name: 'observations',
+    url: '/observations',
+    controller: 'ObservationsCtrl as observations',
+    templateUrl: 'app/views/observations.html'
+  };
+
+  var documentsState = {
+    name: 'documents',
+    url: '/documents',
+    controller: 'DocumentsCtrl as documents',
+    templateUrl: 'app/views/documents.html'
+  };
+
   $stateProvider.state(homeState);
   $stateProvider.state(loginState);
   $stateProvider.state(usersState);
   $stateProvider.state(coursesState);
   $stateProvider.state(assistsState);
+  $stateProvider.state(observationsState);
+  $stateProvider.state(documentsState);
 }
 
 },{}],3:[function(require,module,exports){
@@ -259,6 +275,12 @@ var DashboardCtrl = function () {
       });
     }
   }, {
+    key: 'dismissAlert',
+    value: function dismissAlert() {
+      console.log('Alerta cerrada');
+      this.action.successfully = false;
+    }
+  }, {
     key: 'logout',
     value: function logout() {
       delete this.user;
@@ -274,6 +296,32 @@ DashboardCtrl.$inject = ['$localStorage', '$state', '$uibModal'];
 exports.default = DashboardCtrl;
 
 },{}],6:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DocumentsCtrl = function () {
+  function DocumentsCtrl() {
+    _classCallCheck(this, DocumentsCtrl);
+  }
+
+  _createClass(DocumentsCtrl, [{
+    key: "request",
+    value: function request() {}
+  }]);
+
+  return DocumentsCtrl;
+}();
+
+exports.default = DocumentsCtrl;
+
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -319,7 +367,53 @@ var LoginCtrl = function () {
 LoginCtrl.$inject = ['$http', '$state', '$scope', '$localStorage'];
 exports.default = LoginCtrl;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ObservationCtrl = function () {
+  function ObservationCtrl($http, $uibModalInstance) {
+    _classCallCheck(this, ObservationCtrl);
+
+    this._url = '/sena-project/api/observations.php';
+    this.$http = $http;
+    this.$uibModalInstance = $uibModalInstance;
+    this.data = {};
+  }
+
+  _createClass(ObservationCtrl, [{
+    key: 'dismissModal',
+    value: function dismissModal() {
+      this.$uibModalInstance.dismiss();
+    }
+  }, {
+    key: 'save',
+    value: function save() {
+      var _this = this;
+
+      this.$http.post(this._url, this.data).then(function (res) {
+        _this.$uibModalInstance.close({
+          successfully: true,
+          message: 'Observación creada exitosamente'
+        });
+      });
+    }
+  }]);
+
+  return ObservationCtrl;
+}();
+
+ObservationCtrl.$inject = ['$http', '$uibModalInstance'];
+exports.default = ObservationCtrl;
+
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -361,7 +455,7 @@ var UserCtrl = function () {
     }
   }, {
     key: 'delete',
-    value: function _delete(id) {
+    value: function _delete() {
       var _this2 = this;
 
       this.$http.delete(this._url, { data: { id: this.data.id } }).then(function (res) {
@@ -379,7 +473,60 @@ var UserCtrl = function () {
 UserCtrl.$inject = ['$http', '$uibModalInstance', 'data', 'title'];
 exports.default = UserCtrl;
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ObservationsCtrl = function () {
+  function ObservationsCtrl($http, $uibModal, $scope) {
+    _classCallCheck(this, ObservationsCtrl);
+
+    this._url = '/sena-project/api/observations.php';
+    this.$http = $http;
+    this.$scope = $scope;
+    this.$uibModal = $uibModal;
+    this._refreshData();
+  }
+
+  _createClass(ObservationsCtrl, [{
+    key: '_refreshData',
+    value: function _refreshData() {
+      var _this = this;
+
+      this.$http.get(this._url).then(function (res) {
+        console.log(res);
+        _this.all = res.data;
+      });
+    }
+  }, {
+    key: 'openModal',
+    value: function openModal() {
+      var _this2 = this;
+
+      this.$uibModal.open({
+        controller: 'ObservationCtrl as observation',
+        templateUrl: 'app/views/modals/observation.html'
+      }).result.then(function (action) {
+        _this2.$scope.dashboard.action = action;
+        _this2._refreshData();
+      });
+    }
+  }]);
+
+  return ObservationsCtrl;
+}();
+
+ObservationsCtrl.$inject = ['$http', '$uibModal', '$scope'];
+exports.default = ObservationsCtrl;
+
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -457,7 +604,7 @@ var UsersCtrl = function () {
 UsersCtrl.$inject = ['$http', '$uibModal', '$scope'];
 exports.default = UsersCtrl;
 
-},{}],9:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var _angular = require('angular');
@@ -504,6 +651,18 @@ var _assists = require('./controllers/assists');
 
 var _assists2 = _interopRequireDefault(_assists);
 
+var _documents = require('./controllers/documents');
+
+var _documents2 = _interopRequireDefault(_documents);
+
+var _observations = require('./controllers/observations');
+
+var _observations2 = _interopRequireDefault(_observations);
+
+var _observation = require('./controllers/modals/observation');
+
+var _observation2 = _interopRequireDefault(_observation);
+
 var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
@@ -518,12 +677,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // Configuration
-
+// Libraries
+_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).controller('DocumentsCtrl', _documents2.default).controller('ObservationsCtrl', _observations2.default).controller('ObservationCtrl', _observation2.default).run(_boot2.default);
 
 // Controllers
-_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).run(_boot2.default); // Libraries
 
-},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/login":6,"./controllers/modals/user":7,"./controllers/users":8,"angular":16,"angular-resource":11,"angular-ui-bootstrap":13,"angular-ui-router":14,"ngstorage":17}],10:[function(require,module,exports){
+},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/documents":6,"./controllers/login":7,"./controllers/modals/observation":8,"./controllers/modals/user":9,"./controllers/observations":10,"./controllers/users":11,"angular":19,"angular-resource":14,"angular-ui-bootstrap":16,"angular-ui-router":17,"ngstorage":20}],13:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1386,11 +1545,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],11:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":10}],12:[function(require,module,exports){
+},{"./angular-resource":13}],15:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -9021,12 +9180,12 @@ angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().
 angular.module('ui.bootstrap.tooltip').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTooltipCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'); angular.$$uibTooltipCss = true; });
 angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); angular.$$uibTimepickerCss = true; });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTypeaheadCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); angular.$$uibTypeaheadCss = true; });
-},{}],13:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 require('./dist/ui-bootstrap-tpls');
 
 module.exports = 'ui.bootstrap';
 
-},{"./dist/ui-bootstrap-tpls":12}],14:[function(require,module,exports){
+},{"./dist/ui-bootstrap-tpls":15}],17:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.2
@@ -13636,7 +13795,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],15:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -46021,11 +46180,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],16:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":15}],17:[function(require,module,exports){
+},{"./angular":18}],20:[function(require,module,exports){
 (function (root, factory) {
   'use strict';
 
@@ -46264,4 +46423,4 @@ module.exports = angular;
 
 }));
 
-},{"angular":16}]},{},[9]);
+},{"angular":19}]},{},[12]);

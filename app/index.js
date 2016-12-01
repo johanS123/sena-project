@@ -12,6 +12,9 @@ import UserCtrl from './controllers/modals/user'
 import UsersCtrl from './controllers/users'
 import CoursesCtrl from './controllers/courses'
 import AssistsCtrl from './controllers/assists'
+import DocumentsCtrl from './controllers/documents'
+import ObservationsCtrl from './controllers/observations'
+import ObservationCtrl from './controllers/modals/observation'
 
 // Configuration
 import config from './config'
@@ -27,4 +30,7 @@ angular
   .controller('UserCtrl', UserCtrl)
   .controller('CoursesCtrl', CoursesCtrl)
   .controller('AssistsCtrl', AssistsCtrl)
+  .controller('DocumentsCtrl', DocumentsCtrl)
+  .controller('ObservationsCtrl', ObservationsCtrl)
+  .controller('ObservationCtrl', ObservationCtrl)
   .run(boot)

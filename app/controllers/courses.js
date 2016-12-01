@@ -7,6 +7,7 @@ export default class CoursesCtrl {
     this.$scope = $scope
     this._refreshData()
   }
+
   _refreshData () {
     this.$http
       .get(this._url)

@@ -25,7 +25,7 @@ export default class UserCtrl {
       })
   }
 
-  delete (id) {
+  delete () {
     this.$http
       .delete(this._url, { data: { id: this.data.id } })
       .then(res => {

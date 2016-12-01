@@ -1,0 +1,12 @@
+<div class="col-md-6">
+  <h2>Solicitud</h2>
+  <input type="text" ng-model="documents.userId" placeholder="ID secretariado" class="form-control">
+</div>
+
+<div class="col-md-6">
+  <h2>Documentos</h2>
+
+  <ul ng-repeat="document in documents.all">
+    <li><a href="{{ document.url }}">{{ document.name }}</a></li>
+  </ul>
+</div>

@@ -6,33 +6,18 @@ $observations_entity = new Entity('observations');
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        $user = $users_entity
-            ->select('id')
-            ->where([
-                'id' => ':id'
-            ])
-            ->execute([
-                ':id' => $req->id_user
-            ])
-            ->fetch(PDO::FETCH_OBJ);
+        $sth = $db->query('
+            SELECT u.first_name, u.last_name, o.* 
+            FROM users u, observations o
+            WHERE o.id_user = u.id
+        ');
 
-        $observations = $observations_entity
-            ->select(''/* campos */)
-            ->where([
-                'id_user' => ':id_user'
-            ])
-            ->execute([
-                ':id_user' => $req->id_user
-            ])
-            ->fetchAll(PDO::FETCH_OBJ);
-
-        // La respuesta en json aquí
+        $observations = $sth->fetchAll(PDO::FETCH_ASSOC);
 
         if ($observations) {
             end_json($observations, 200);
         }
-    break;
-
+        break;
     case 'POST':
         $observations_entity->insert([
             'type' => ':type',
@@ -47,5 +32,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
             ':tracing' => $req->tracing,
             ':id_user' => $req->id_user
         ]);
+    break;
+
+    case 'DELETE':
+        $observations_entity->delete([
+            'id' => $req->id
+        ]);
+
+        http_response_code(204);
     break;
 }
