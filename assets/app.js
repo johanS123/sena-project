@@ -228,6 +228,8 @@ var CoursesCtrl = function () {
 
       this.$http.post(this._url, course).then(function (res) {
         console.log(res);
+        course.name = '';
+        course.date_due = '';
         _this2.$scope.dashboard.action = {
           successfully: true,
           message: 'Curso creado exitosamente'

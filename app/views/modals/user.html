@@ -5,35 +5,58 @@
 
 <form name="userForm" ng-submit="user.save()" novalidate>
   <div class="modal-body">
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': userForm.first_name.$invalid && userForm.first_name.$touched,
+      'has-success': userForm.first_name.$valid
+    }">
       <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
         <input name="first_name" required ng-model="user.data.first_name" type="text" class="form-control" placeholder="Nombres">
       </div>
+
+      <span ng-if="userForm.first_name.$invalid && userForm.first_name.$touched" class="help-block">Campo requerido</span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': userForm.last_name.$invalid && userForm.last_name.$touched,
+      'has-success': userForm.last_name.$valid
+    }">
       <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
         <input name="last_name" required ng-model="user.data.last_name" type="text" class="form-control" placeholder="Apellidos">
       </div>
+
+      <span ng-if="userForm.last_name.$invalid && userForm.last_name.$touched" class="help-block">Campo requerido</span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': userForm.email.$invalid && userForm.email.$touched,
+      'has-success': userForm.email.$valid
+    }">
       <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
         <input name="email" required ng-model="user.data.email" type="email" class="form-control" placeholder="Correo electrónico">
       </div>
+
+      <span ng-if="userForm.email.$invalid && userForm.email.$touched" class="help-block">Campo requerido</span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': userForm.password.$invalid && userForm.password.$touched,
+      'has-success': userForm.password.$valid
+    }">
       <div class="input-group">
         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
         <input name="password" required ng-model="user.data.password" type="password" class="form-control" placeholder="Contraseña">
       </div>
+
+      <span ng-if="userForm.password.$invalid && userForm.password.$touched" class="help-block">Campo requerido</span>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': userForm.role.$invalid && userForm.role.$touched,
+      'has-success': userForm.role.$valid
+    }">
       <select name="role" required ng-model="user.data.role" class="form-control">
         <option value="">Seleccionar rol</option>
         <option value="administrador">Administrador</option>
@@ -43,6 +66,8 @@
         <option value="secretariado">Secretariado</option>
         <option value="acudiente">Acudiente</option>
       </select>
+
+      <span ng-if="userForm.role.$invalid && userForm.role.$touched" class="help-block">Campo requerido</span>
     </div>
   </div>
 

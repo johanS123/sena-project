@@ -3,25 +3,31 @@
   <h4>Subir documento</h4>
 </div>
 
-<form ng-submit="document.save()">
+<form name="documentForm" ng-submit="document.save()">
   <div class="modal-body">
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': documentForm.name.$invalid && documentForm.name.$touched,
+      'has-success': documentForm.name.$valid
+    }">
       <label for="name">Nombre:</label>
-      <input ng-model="document.data.name" id="name" type="text" class="form-control">
+      <input name="name" ng-model="document.data.name" required id="name" type="text" class="form-control">
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': documentForm.type.$invalid && documentForm.type.$touched,
+      'has-success': documentForm.type.$valid
+    }">
       <label for="type">Tipo:</label>
-      <input ng-model="document.data.type" id="type" type="text" class="form-control">
+      <input name="type" ng-model="document.data.type" required id="type" type="text" class="form-control">
     </div>
 
     <div class="form-group">
       <label for="document">Documento:</label>
-      <input type="file" id="document" onchange="angular.element(this).scope().document.uploadFiles(this.files)" class="form-control">
+      <input name="document" type="file" id="document" onchange="angular.element(this).scope().document.uploadFiles(this.files)" class="form-control">
     </div>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="submit">Guardar</button>
+    <button class="btn btn-success" type="submit" ng-disabled="documentForm.$invalid">Guardar</button>
   </div>
 </form>

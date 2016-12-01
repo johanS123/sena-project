@@ -21,6 +21,8 @@ export default class CoursesCtrl {
       .post(this._url, course)
       .then(res => {
         console.log(res)
+        course.name = ''
+        course.date_due = ''
         this.$scope.dashboard.action = {
           successfully: true,
           message: 'Curso creado exitosamente'

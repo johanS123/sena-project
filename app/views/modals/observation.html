@@ -3,34 +3,46 @@
   <h4>Crear observación</h4>
 </div>
 
-<form ng-submit="observation.save()">
+<form name="observationForm" ng-submit="observation.save()">
   <div class="modal-body">
-    <div class="form-group">
-      <label for="user">Id del usuario:</label>
-      <input ng-model="observation.data.id_user" id="user" type="number" class="form-control">
+    <div class="form-group" ng-class="{
+      'has-error': observationForm.user.$invalid && observationForm.user.$touched,
+      'has-success': observationForm.user.$valid
+    }">
+      <label for="user">Id del alumno:</label>
+      <input required name="user" ng-model="observation.data.id_user" id="user" type="number" class="form-control">
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': observationForm.type.$invalid && observationForm.type.$touched,
+      'has-success': observationForm.type.$valid
+    }">
       <label for="type">Tipo:</label>
-      <select id="type" ng-model="observation.data.type" class="form-control">
+      <select required name="type" id="type" ng-model="observation.data.type" class="form-control">
         <option value="">Tipo de observación</option>
         <option value="academico">Académico</option>
         <option value="convivencial">Convivencial</option>
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': observationForm.description.$invalid && observationForm.description.$touched,
+      'has-success': observationForm.description.$valid
+    }">
       <label for="description">Observación:</label>
-      <textarea id="description" ng-model="observation.data.description" class="form-control"></textarea>
+      <textarea required name="description" id="description" ng-model="observation.data.description" class="form-control"></textarea>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{
+      'has-error': observationForm.tracing.$invalid && observationForm.tracing.$touched,
+      'has-success': observationForm.tracing.$valid
+    }">
       <label for="tracing">Seguimiento:</label>
-      <textarea id="tracing" ng-model="observation.data.tracing" class="form-control"></textarea>
+      <textarea required name="tracing" id="tracing" ng-model="observation.data.tracing" class="form-control"></textarea>
     </div>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="submit">Guardar</button>
+    <button class="btn btn-success" type="submit" ng-disabled="observationForm.$invalid">Guardar</button>
   </div>
 </form>

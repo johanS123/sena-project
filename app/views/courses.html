@@ -2,16 +2,16 @@
   <h1 class="text-center">Gestión de cursos</h1>
 
   <div class="col-md-6">
-    <form ng-submit="courses.save(course)" novalidate>
+    <form name="courseForm" ng-submit="courses.save(course)" novalidate>
       <div class="form-group">
-        <input type="text" ng-model="course.name" class="form-control" placeholder="Nombre del curso">
+        <input name="name" type="text" required ng-model="course.name" class="form-control" placeholder="Nombre del curso">
       </div>
 
       <div class="form-group">
-        <input type="datetime-local" ng-model="course.date_due" class="form-control" placeholder="Hora y fecha de asistencia">
+        <input name="date_due" type="datetime-local" required ng-model="course.date_due" class="form-control" placeholder="Hora y fecha de asistencia">
       </div>
 
-      <button type="submit" class="btn btn-info">Guardar</button>
+      <button type="submit" class="btn btn-info" ng-disabled="courseForm.$invalid">Guardar</button>
     </form>
   </div>
 
