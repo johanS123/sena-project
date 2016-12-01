@@ -501,6 +501,7 @@ var ObservationCtrl = function () {
       var _this = this;
 
       this.$http.post(this._url, this.data).then(function (res) {
+        console.log(res);
         _this.$uibModalInstance.close({
           successfully: true,
           message: 'Observación creada exitosamente'

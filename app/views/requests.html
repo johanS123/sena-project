@@ -13,6 +13,10 @@
     </thead>
 
     <tbody>
+      <tr ng-if="!requests.all.length">
+        <td colspan="5" class="text-center">No existen solicitudes</td>
+      </tr>
+
       <tr ng-repeat="request in requests.all">
         <td>{{ request.id }}</td>
         <td>{{ request.request }}</td>

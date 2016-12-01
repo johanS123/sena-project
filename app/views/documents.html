@@ -12,6 +12,10 @@
     </thead>
 
     <tbody>
+      <tr ng-if="!documents.all.length">
+        <td colspan="4" class="text-center">No existen documentos</td>
+      </tr>
+
       <tr ng-repeat="document in documents.all">
         <td>{{ document.id }}</td>
         <td>{{ document.name }}</td>

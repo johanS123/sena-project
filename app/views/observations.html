@@ -14,6 +14,10 @@
     </thead>
 
     <tbody>
+      <tr ng-if="!observations.all.length">
+        <td colspan="6" class="text-center">No existen observaciones</td>
+      </tr>
+
       <tr ng-repeat="observation in observations.all">
         <td>{{ observation.id }}</td>
         <td>{{ observation.type }}</td>

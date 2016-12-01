@@ -16,6 +16,7 @@ export default class ObservationCtrl {
     this.$http
       .post(this._url, this.data)
       .then(res => {
+        console.log(res)
         this.$uibModalInstance.close({
           successfully: true,
           message: 'Observación creada exitosamente'
