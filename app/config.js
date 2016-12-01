@@ -58,6 +58,13 @@ function config ($stateProvider) {
     templateUrl: 'app/views/documents.html'
   }
 
+  const reportsState = {
+    name: 'reports',
+    url: '/reports',
+    controller: 'ReportsCtrl as reports',
+    templateUrl: 'app/views/reports.html'
+  }
+
   $stateProvider.state(homeState)
   $stateProvider.state(loginState)
   $stateProvider.state(usersState)
@@ -66,4 +73,5 @@ function config ($stateProvider) {
   $stateProvider.state(observationsState)
   $stateProvider.state(documentsState)
   $stateProvider.state(requestsState)
+  $stateProvider.state(reportsState)
 }

@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="report.dismissModal()">&times;</button>
+  <h4>Nuevo informe</h4>
+</div>
+
+<form name="reportForm" ng-submit="report.save()">
+  <div class="modal-body">
+    <div class="form-group" ng-class="{
+      'has-error': reportForm.user.$invalid && reportForm.user.$touched,
+      'has-success': reportForm.user.$valid
+    }">
+      <label for="user">Id del alumno:</label>
+      <input required name="user" ng-model="report.data.id_user" id="user" type="number" class="form-control">
+    </div>
+
+    <div class="form-group" ng-class="{
+      'has-error': reportForm.achievements.$invalid && reportForm.achievements.$touched,
+      'has-success': reportForm.achievements.$valid
+    }">
+      <label for="achievements">Logros:</label>
+      <textarea required name="achievements" id="achievements" class="form-control" ng-model="report.data.achievements"></textarea>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="submit" ng-disabled="reportForm.$invalid">Añadir</button>
+  </div>
+</form>

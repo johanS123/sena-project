@@ -18,6 +18,8 @@ import ObservationCtrl from './controllers/modals/observation'
 import RequestsCtrl from './controllers/requests'
 import RequestCtrl from './controllers/modals/request'
 import DocumentCtrl from './controllers/modals/document'
+import ReportsCtrl from './controllers/reports'
+import ReportCtrl from './controllers/report'
 
 // Configuration
 import config from './config'
@@ -39,4 +41,6 @@ angular
   .controller('RequestsCtrl', RequestsCtrl)
   .controller('RequestCtrl', RequestCtrl)
   .controller('DocumentCtrl', DocumentCtrl)
+  .controller('ReportsCtrl', ReportsCtrl)
+  .controller('ReportCtrl', ReportCtrl)
   .run(boot)

@@ -1,0 +1,27 @@
+<h1 class="text-center">Gestión de informes académicos</h1>
+
+<div class="col-md-12">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Logro</th>
+        <th>Estudiante</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-if="!reports.all.length">
+        <td colspan="3" class="text-center">No existen reportes académicos</td>
+      </tr>
+
+      <tr ng-repeat="report in reports.all">
+        <td>{{ report.id }}</td>
+        <td>{{ report.achievements }}</td>
+        <td>{{ report.first_name }} {{ report.last_name }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button class="btn btn-primary" ng-click="reports.openModal()" type="button">Añadir informe</button>
+</div>

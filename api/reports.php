@@ -2,11 +2,15 @@
 
 require_once __DIR__ . '/utils/index.php';
 
-$reports_entity = new Entity('reports_academics');
-
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        $sth = $reports_entity->select('*')->execute();
+        $sth = $db->prepare('
+            SELECT r.id, r.achievements, u.first_name, u.last_name
+            FROM reports r, users u
+            WHERE r.id_user = u.id
+        ');
+
+        $sth->execute();
         $reports = $sth->fetchAll(PDO::FETCH_ASSOC);
 
         if ($reports) {
@@ -15,11 +19,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
     break;
 
     case 'POST':
+        $reports_entity = new Entity('reports');
+
         $reports_entity->insert([
             'achievements' => ':achievements',
             'id_user' => ':id_user'
         ])->execute([
-            ':achievements' => $req->achivements,
+            ':achievements' => $req->achievements,
             ':id_user' => $req->id_user
         ]);
     break;

@@ -117,6 +117,13 @@ function config($stateProvider) {
     templateUrl: 'app/views/documents.html'
   };
 
+  var reportsState = {
+    name: 'reports',
+    url: '/reports',
+    controller: 'ReportsCtrl as reports',
+    templateUrl: 'app/views/reports.html'
+  };
+
   $stateProvider.state(homeState);
   $stateProvider.state(loginState);
   $stateProvider.state(usersState);
@@ -125,6 +132,7 @@ function config($stateProvider) {
   $stateProvider.state(observationsState);
   $stateProvider.state(documentsState);
   $stateProvider.state(requestsState);
+  $stateProvider.state(reportsState);
 }
 
 },{}],3:[function(require,module,exports){
@@ -471,7 +479,7 @@ var DocumentCtrl = function () {
 DocumentCtrl.$inject = ['$http', '$uibModalInstance', '$stateParams'];
 exports.default = DocumentCtrl;
 
-},{"angular":22}],9:[function(require,module,exports){
+},{"angular":24}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -689,6 +697,106 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var ReportCtrl = function () {
+  function ReportCtrl($http, $uibModalInstance) {
+    _classCallCheck(this, ReportCtrl);
+
+    this.data = {};
+    this._url = '/sena-project/api/reports.php';
+    this.$http = $http;
+    this.$uibModalInstance = $uibModalInstance;
+  }
+
+  _createClass(ReportCtrl, [{
+    key: 'dismissModal',
+    value: function dismissModal() {
+      this.$uibModalInstance.dismiss();
+    }
+  }, {
+    key: 'save',
+    value: function save() {
+      var _this = this;
+
+      this.$http.post(this._url, this.data).then(function (res) {
+        console.log(res);
+        _this.$uibModalInstance.close({
+          successfully: true,
+          message: 'Informe añadido exitosamente'
+        });
+      });
+    }
+  }]);
+
+  return ReportCtrl;
+}();
+
+ReportCtrl.$inject = ['$http', '$uibModalInstance'];
+exports.default = ReportCtrl;
+
+},{}],14:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ReportsCtrl = function () {
+  function ReportsCtrl($http, $uibModal, $scope) {
+    _classCallCheck(this, ReportsCtrl);
+
+    this._url = '/sena-project/api/reports.php';
+    this.$scope = $scope;
+    this.$http = $http;
+    this.$uibModal = $uibModal;
+    this._refreshData();
+  }
+
+  _createClass(ReportsCtrl, [{
+    key: '_refreshData',
+    value: function _refreshData() {
+      var _this = this;
+
+      this.$http.get(this._url).then(function (res) {
+        console.log(res);
+        _this.all = res.data;
+      });
+    }
+  }, {
+    key: 'openModal',
+    value: function openModal() {
+      var _this2 = this;
+
+      this.$uibModal.open({
+        controller: 'ReportCtrl as report',
+        templateUrl: 'app/views/modals/report.html'
+      }).result.then(function (action) {
+        _this2._refreshData();
+        _this2.$scope.dashboard.action = action;
+      });
+    }
+  }]);
+
+  return ReportsCtrl;
+}();
+
+ReportsCtrl.$inject = ['$http', '$uibModal', '$scope'];
+exports.default = ReportsCtrl;
+
+},{}],15:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var RequestsCtrl = function () {
   function RequestsCtrl($http, $uibModal, $scope, $state) {
     _classCallCheck(this, RequestsCtrl);
@@ -737,7 +845,7 @@ var RequestsCtrl = function () {
 RequestsCtrl.$inject = ['$http', '$uibModal', '$scope', '$state'];
 exports.default = RequestsCtrl;
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -815,7 +923,7 @@ var UsersCtrl = function () {
 UsersCtrl.$inject = ['$http', '$uibModal', '$scope'];
 exports.default = UsersCtrl;
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var _angular = require('angular');
@@ -886,6 +994,14 @@ var _document = require('./controllers/modals/document');
 
 var _document2 = _interopRequireDefault(_document);
 
+var _reports = require('./controllers/reports');
+
+var _reports2 = _interopRequireDefault(_reports);
+
+var _report = require('./controllers/report');
+
+var _report2 = _interopRequireDefault(_report);
+
 var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
@@ -903,9 +1019,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // Controllers
-_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).controller('DocumentsCtrl', _documents2.default).controller('ObservationsCtrl', _observations2.default).controller('ObservationCtrl', _observation2.default).controller('RequestsCtrl', _requests2.default).controller('RequestCtrl', _request2.default).controller('DocumentCtrl', _document2.default).run(_boot2.default); // Libraries
+_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).controller('DocumentsCtrl', _documents2.default).controller('ObservationsCtrl', _observations2.default).controller('ObservationCtrl', _observation2.default).controller('RequestsCtrl', _requests2.default).controller('RequestCtrl', _request2.default).controller('DocumentCtrl', _document2.default).controller('ReportsCtrl', _reports2.default).controller('ReportCtrl', _report2.default).run(_boot2.default); // Libraries
 
-},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/documents":6,"./controllers/login":7,"./controllers/modals/document":8,"./controllers/modals/observation":9,"./controllers/modals/request":10,"./controllers/modals/user":11,"./controllers/observations":12,"./controllers/requests":13,"./controllers/users":14,"angular":22,"angular-resource":17,"angular-ui-bootstrap":19,"angular-ui-router":20,"ngstorage":23}],16:[function(require,module,exports){
+},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/documents":6,"./controllers/login":7,"./controllers/modals/document":8,"./controllers/modals/observation":9,"./controllers/modals/request":10,"./controllers/modals/user":11,"./controllers/observations":12,"./controllers/report":13,"./controllers/reports":14,"./controllers/requests":15,"./controllers/users":16,"angular":24,"angular-resource":19,"angular-ui-bootstrap":21,"angular-ui-router":22,"ngstorage":25}],18:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1768,11 +1884,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],17:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":16}],18:[function(require,module,exports){
+},{"./angular-resource":18}],20:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -9403,12 +9519,12 @@ angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().
 angular.module('ui.bootstrap.tooltip').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTooltipCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'); angular.$$uibTooltipCss = true; });
 angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); angular.$$uibTimepickerCss = true; });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTypeaheadCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); angular.$$uibTypeaheadCss = true; });
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 require('./dist/ui-bootstrap-tpls');
 
 module.exports = 'ui.bootstrap';
 
-},{"./dist/ui-bootstrap-tpls":18}],20:[function(require,module,exports){
+},{"./dist/ui-bootstrap-tpls":20}],22:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.2
@@ -14018,7 +14134,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -46403,11 +46519,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":21}],23:[function(require,module,exports){
+},{"./angular":23}],25:[function(require,module,exports){
 (function (root, factory) {
   'use strict';
 
@@ -46646,4 +46762,4 @@ module.exports = angular;
 
 }));
 
-},{"angular":22}]},{},[15]);
+},{"angular":24}]},{},[17]);
