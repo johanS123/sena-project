@@ -47,7 +47,7 @@ CREATE TABLE requests(
   id INT(11) AUTO_INCREMENT NOT NULL,
   request TEXT NOT NULL,
   date_request DATETIME NOT NULL,
-  date_response DATETIME NOT NULL,
+  date_response DATETIME NULL,
   id_user INT(11) NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (id_user) REFERENCES users(id) ON DELETE CASCADE
