@@ -34,7 +34,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             ])
             ->execute([
                 ':request' => $req->request,
-                ':date_request' => date('Y-m-s H:i:s'),
+                ':date_request' => date('Y-m-d H:i:s'),
                 ':id_user' => $req->id_user
             ]);
     break;
