@@ -1,0 +1,27 @@
+<h1 class="text-center">Gestión de solicitudes</h1>
+
+<div class="col-md-12">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Solicitud</th>
+        <th>Fecha de emisión</th>
+        <th>Fecha de respuesta</th>
+        <th>Documentos</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="request in requests.all">
+        <td>{{ request.id }}</td>
+        <td>{{ request.request }}</td>
+        <td>{{ request.date_request }}</td>
+        <td>{{ request.date_response }}</td>
+        <td><button class="btn btn-default" type="button" ng-click="requests.seeDocuments(request.id)">Ver documentos</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button type="button" class="btn btn-primary" ng-click="requests.openModal()">Crear solicitud</button>
+</div>

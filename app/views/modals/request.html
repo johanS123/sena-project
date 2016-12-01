@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="request.dismissModal()">&times;</button>
+  <h4>Creación de solicitud</h4>
+</div>
+
+<form ng-submit="request.save()">
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="request">Solicitud: </label>
+      <textarea class="form-control" ng-model="request.data.request" id="request"></textarea>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="submit">Guardar</button>
+  </div>
+</form>

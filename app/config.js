@@ -44,9 +44,16 @@ function config ($stateProvider) {
     templateUrl: 'app/views/observations.html'
   }
 
+  const requestsState = {
+    name: 'requests',
+    url: '/requests',
+    controller: 'RequestsCtrl as requests',
+    templateUrl: 'app/views/requests.html'
+  }
+
   const documentsState = {
     name: 'documents',
-    url: '/documents',
+    url: '/requests/:id/documents',
     controller: 'DocumentsCtrl as documents',
     templateUrl: 'app/views/documents.html'
   }
@@ -58,4 +65,5 @@ function config ($stateProvider) {
   $stateProvider.state(assistsState)
   $stateProvider.state(observationsState)
   $stateProvider.state(documentsState)
+  $stateProvider.state(requestsState)
 }

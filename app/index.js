@@ -15,6 +15,9 @@ import AssistsCtrl from './controllers/assists'
 import DocumentsCtrl from './controllers/documents'
 import ObservationsCtrl from './controllers/observations'
 import ObservationCtrl from './controllers/modals/observation'
+import RequestsCtrl from './controllers/requests'
+import RequestCtrl from './controllers/modals/request'
+import DocumentCtrl from './controllers/modals/document'
 
 // Configuration
 import config from './config'
@@ -33,4 +36,7 @@ angular
   .controller('DocumentsCtrl', DocumentsCtrl)
   .controller('ObservationsCtrl', ObservationsCtrl)
   .controller('ObservationCtrl', ObservationCtrl)
+  .controller('RequestsCtrl', RequestsCtrl)
+  .controller('RequestCtrl', RequestCtrl)
+  .controller('DocumentCtrl', DocumentCtrl)
   .run(boot)
