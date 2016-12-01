@@ -21,18 +21,38 @@ function boot ($rootScope, $state, $localStorage) {
 
     if (user) {
       switch (stateName) {
+        /*
         case 'login':
           redirect('home')
         break
 
-        case 'users':
-          if (user.role !== 'administrador') {
+        case 'courses':
+          if (user.role === 'secretariado') {
             redirect('home')
           }
         break
 
-        case 'courses':
+        case 'observations':
+          if (user.role === 'secretariado' ||
+              user.role === 'administrador') {
+            redirect('home')
+          }
         break
+
+        case 'requests':
+          if (user.role !== 'acudiente' &&
+              user.role !== 'secretariado') {
+            redirect('home')
+          }
+        break
+
+        case 'reports':
+          if (user.role !== 'acudiente' &&
+              user.role !== 'profesor' &&
+              user.role !== 'coordinador') {
+            redirect('home')
+          }
+        break*/
       }
     } else if (stateName !== 'login') {
       redirect('login')

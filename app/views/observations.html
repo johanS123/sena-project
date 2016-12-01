@@ -29,5 +29,5 @@
     </tbody>
   </table>
 
-  <button type="button" class="btn btn-success" ng-click="observations.openModal()">Crear observación</button>
+  <button type="button" class="btn btn-success" ng-click="observations.openModal()" ng-if="dashboard.user.role === 'profesor'">Crear observación</button>
 </div>

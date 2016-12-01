@@ -27,20 +27,7 @@ function boot($rootScope, $state, $localStorage) {
     }
 
     if (user) {
-      switch (stateName) {
-        case 'login':
-          redirect('home');
-          break;
-
-        case 'users':
-          if (user.role !== 'administrador') {
-            redirect('home');
-          }
-          break;
-
-        case 'courses':
-          break;
-      }
+      switch (stateName) {}
     } else if (stateName !== 'login') {
       redirect('login');
     }

@@ -7,9 +7,14 @@
     <ul class="nav navbar-nav">
       <li ui-sref-active="active"><a ui-sref="users">Usuarios</a></li>
       <li ui-sref-active="active"><a ui-sref="courses">Cursos</a></li>
-      <li ui-sref-active="active"><a ui-sref="observations">Observaciones</a></li>
-      <li ui-sref-active="active"><a ui-sref="requests">Solicitudes</a></li>
-      <li ui-sref-active="active"><a ui-sref="reports">Informes académicos</a></li>
+      <li ui-sref-active="active" ng-if="dashboard.user.role === 'acudiente' ||
+                                         dashboard.user.role === 'profesor' ||
+                                         dashboard.user.role === 'coordinador'"><a ui-sref="observations">Observaciones</a></li>
+      <li ui-sref-active="active" ng-if="dashboard.user.role === 'acudiente' ||
+                                         dashboard.user.role === 'secretariado'"><a ui-sref="requests">Solicitudes</a></li>
+      <li ui-sref-active="active" ng-if="dashboard.user.role === 'acudiente' ||
+                                         dashboard.user.role === 'profesor' ||
+                                         dashboard.user.role === 'coordinador'"><a ui-sref="reports">Informes académicos</a></li>
     </ul>
 
     <ul class="nav navbar-nav navbar-right">

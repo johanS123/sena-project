@@ -1,21 +1,7 @@
 <div class="container">
   <h1 class="text-center">Gestión de cursos</h1>
 
-  <div class="col-md-6">
-    <form name="courseForm" ng-submit="courses.save(course)" novalidate>
-      <div class="form-group">
-        <input name="name" type="text" required ng-model="course.name" class="form-control" placeholder="Nombre del curso">
-      </div>
-
-      <div class="form-group">
-        <input name="date_due" type="datetime-local" required ng-model="course.date_due" class="form-control" placeholder="Hora y fecha de asistencia">
-      </div>
-
-      <button type="submit" class="btn btn-info" ng-disabled="courseForm.$invalid">Guardar</button>
-    </form>
-  </div>
-
-  <div class="col-md-6">
+  <div class="col-md-12">
     <table class="table">
       <thead>
         <tr>
@@ -37,5 +23,19 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="col-md-12">
+    <form ng-if="dashboard.user.role === 'administrador'" name="courseForm" ng-submit="courses.save(course)" novalidate>
+      <div class="form-group">
+        <input name="name" type="text" required ng-model="course.name" class="form-control" placeholder="Nombre del curso">
+      </div>
+
+      <div class="form-group">
+        <input name="date_due" type="datetime-local" required ng-model="course.date_due" class="form-control" placeholder="Hora y fecha de asistencia">
+      </div>
+
+      <button type="submit" class="btn btn-info" ng-disabled="courseForm.$invalid">Guardar</button>
+    </form>
   </div>
 </div>

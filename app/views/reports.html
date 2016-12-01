@@ -23,5 +23,5 @@
     </tbody>
   </table>
 
-  <button class="btn btn-primary" ng-click="reports.openModal()" type="button">Añadir informe</button>
+  <button class="btn btn-primary" ng-click="reports.openModal()" type="button" ng-if="dashboard.user.role === 'coordinador'">Añadir informe</button>
 </div>

@@ -12,7 +12,7 @@
       <th>Apellidos</th>
       <th>Correo electrónico</th>
       <th>Rol</th>
-      <th colspan="2">Acciones</th>
+      <th colspan="2" ng-if="dashboard.user.role === 'administrador'">Acciones</th>
     </tr>
   </thead>
 
@@ -27,12 +27,12 @@
       <td>{{ user.last_name }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.role }}</td>
-      <td><button type="button" class="btn btn-primary" ng-click="users.openEditModal(user)">Editar</button></td>
-      <td><button type="button" class="btn btn-danger" ng-click="users.openDeleteModal(user)">Eliminar</button></td>
+      <td ng-if="dashboard.user.role === 'administrador'"><button type="button" class="btn btn-primary" ng-click="users.openEditModal(user)">Editar</button></td>
+      <td ng-if="dashboard.user.role === 'administrador'"><button type="button" class="btn btn-danger" ng-click="users.openDeleteModal(user)">Eliminar</button></td>
     </tr>
   </tbody>
 </table>
 
 <div class="text-center col-md-12">
-  <button class="btn btn-lg btn-primary" type="button" ng-click="users.openCreateModal()">Crear usuario</button>
+  <button class="btn btn-lg btn-primary" type="button" ng-click="users.openCreateModal()" ng-if="dashboard.user.role === 'administrador'">Crear usuario</button>
 </div>

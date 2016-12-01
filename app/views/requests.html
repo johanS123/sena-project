@@ -27,5 +27,5 @@
     </tbody>
   </table>
 
-  <button type="button" class="btn btn-primary" ng-click="requests.openModal()">Crear solicitud</button>
+  <button type="button" class="btn btn-primary" ng-click="requests.openModal()" ng-if="dashboard.user.role === 'acudiente'">Crear solicitud</button>
 </div>

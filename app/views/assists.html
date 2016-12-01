@@ -15,7 +15,7 @@
         <th>Nombres</th>
         <th>Apellidos</th>
         <th>Hora de llegada</th>
-        <th colspan="2">Acciones</th>
+        <th colspan="2" ng-if="dashboard.user.role === 'profesor'">Acciones</th>
       </tr>
     </thead>
 
@@ -28,8 +28,8 @@
         <td>{{ assist.first_name }}</td>
         <td>{{ assist.last_name }}</td>
         <td>{{ assist.date_arrived }}</td>
-        <td><button type="button" class="btn btn-success" ng-click="assists.attended(assist.id, 1)" ng-disabled="assist.attended === '1' || assist.attended === '0'">Asistió</button></td>
-        <td><button type="button" class="btn btn-danger" ng-click="assists.attended(assist.id, 0)" ng-disabled="assist.attended === '1' || assist.attended === '0'">No asistió</button></td>
+        <td ng-if="dashboard.user.role === 'profesor'"><button type="button" class="btn btn-success" ng-click="assists.attended(assist.id, 1)" ng-disabled="assist.attended === '1' || assist.attended === '0'">Asistió</button></td>
+        <td ng-if="dashboard.user.role === 'profesor'"><button type="button" class="btn btn-danger" ng-click="assists.attended(assist.id, 0)" ng-disabled="assist.attended === '1' || assist.attended === '0'">No asistió</button></td>
       </tr>
     </tbody>
   </table>
