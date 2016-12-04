@@ -12,13 +12,13 @@
       <th>Apellidos</th>
       <th>Correo electrónico</th>
       <th>Rol</th>
-      <th colspan="2" ng-if="dashboard.user.role === 'administrador'">Acciones</th>
+      <th colspan="3" ng-if="dashboard.user.role === 'administrador'">Acciones</th>
     </tr>
   </thead>
 
   <tbody>
     <tr ng-if="users.all.length === 1">
-      <td class="text-center" colspan="7">No hay usuarios que mostrar</td>
+      <td class="text-center" colspan="8">No hay usuarios que mostrar</td>
     </tr>
 
     <tr ng-repeat="user in users.all | filter:query" ng-if="user.id !== dashboard.user.id">
@@ -27,6 +27,7 @@
       <td>{{ user.last_name }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.role }}</td>
+      <td ng-if="dashboard.user.role === 'administrador'"><button type="button" class="btn btn-primary" ng-click="users.openHistoryModal(user.id)">Ver historial</button></td>
       <td ng-if="dashboard.user.role === 'administrador'"><button type="button" class="btn btn-primary" ng-click="users.openEditModal(user)">Editar</button></td>
       <td ng-if="dashboard.user.role === 'administrador'"><button type="button" class="btn btn-danger" ng-click="users.openDeleteModal(user)">Eliminar</button></td>
     </tr>

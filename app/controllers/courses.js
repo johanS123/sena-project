@@ -1,7 +1,8 @@
 export default class CoursesCtrl {
-  static $inject = ['$http', '$scope']
+  static $inject = ['$http', '$scope', 'historyServ']
 
-  constructor ($http, $scope) {
+  constructor ($http, $scope, historyServ) {
+    this.historyServ = historyServ
     this._url = '/sena-project/api/courses.php'
     this.$http = $http
     this.$scope = $scope
@@ -21,12 +22,16 @@ export default class CoursesCtrl {
       .post(this._url, course)
       .then(res => {
         console.log(res)
-        course.name = ''
-        course.date_due = ''
+
         this.$scope.dashboard.action = {
           successfully: true,
           message: 'Curso creado exitosamente'
         }
+
+        this.historyServ.save(`Registró el curso "${course.name}"`)
+
+        course.name = ''
+        course.date_due = ''
 
         this._refreshData()
       })

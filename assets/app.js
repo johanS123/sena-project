@@ -134,12 +134,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var AssistsCtrl = function () {
-  function AssistsCtrl($http, $stateParams) {
+  function AssistsCtrl($http, $stateParams, historyServ) {
     _classCallCheck(this, AssistsCtrl);
 
     this._url = '/sena-project/api/assists.php';
     this.$http = $http;
     this.courseId = $stateParams.id;
+    this.historyServ = historyServ;
     this._refreshData();
   }
 
@@ -175,6 +176,7 @@ var AssistsCtrl = function () {
         id_user: studentId
       }).then(function (res) {
         console.log(res.data);
+        _this3.historyServ.save('Registr\xF3 un estudiante en el curso con id: ' + _this3.courseId);
         _this3._refreshData();
       });
     }
@@ -188,7 +190,7 @@ var AssistsCtrl = function () {
   return AssistsCtrl;
 }();
 
-AssistsCtrl.$inject = ['$http', '$stateParams'];
+AssistsCtrl.$inject = ['$http', '$stateParams', 'historyServ'];
 exports.default = AssistsCtrl;
 
 },{}],4:[function(require,module,exports){
@@ -203,9 +205,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var CoursesCtrl = function () {
-  function CoursesCtrl($http, $scope) {
+  function CoursesCtrl($http, $scope, historyServ) {
     _classCallCheck(this, CoursesCtrl);
 
+    this.historyServ = historyServ;
     this._url = '/sena-project/api/courses.php';
     this.$http = $http;
     this.$scope = $scope;
@@ -228,12 +231,16 @@ var CoursesCtrl = function () {
 
       this.$http.post(this._url, course).then(function (res) {
         console.log(res);
-        course.name = '';
-        course.date_due = '';
+
         _this2.$scope.dashboard.action = {
           successfully: true,
           message: 'Curso creado exitosamente'
         };
+
+        _this2.historyServ.save('Registr\xF3 el curso "' + course.name + '"');
+
+        course.name = '';
+        course.date_due = '';
 
         _this2._refreshData();
       });
@@ -243,7 +250,7 @@ var CoursesCtrl = function () {
   return CoursesCtrl;
 }();
 
-CoursesCtrl.$inject = ['$http', '$scope'];
+CoursesCtrl.$inject = ['$http', '$scope', 'historyServ'];
 exports.default = CoursesCtrl;
 
 },{}],5:[function(require,module,exports){
@@ -291,6 +298,17 @@ var DashboardCtrl = function () {
       delete this.action;
     }
   }, {
+    key: 'seeHistory',
+    value: function seeHistory() {
+      this.$uibModal.open({
+        controller: 'HistoryCtrl as history',
+        templateUrl: 'app/views/modals/history.html',
+        resolve: {
+          data: { id_user: this.user.id }
+        }
+      });
+    }
+  }, {
     key: 'logout',
     value: function logout() {
       delete this.user;
@@ -317,9 +335,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var DocumentsCtrl = function () {
-  function DocumentsCtrl($http, $stateParams, $uibModal, $scope) {
+  function DocumentsCtrl($http, $stateParams, $uibModal, $scope, historyServ) {
     _classCallCheck(this, DocumentsCtrl);
 
+    this.historyServ = historyServ;
     this._url = '/sena-project/api/documents.php';
     this.$http = $http;
     this.$stateParams = $stateParams;
@@ -347,6 +366,7 @@ var DocumentsCtrl = function () {
         controller: 'DocumentCtrl as document',
         templateUrl: 'app/views/modals/document.html'
       }).result.then(function (action) {
+        _this2.historyServ.save('Subió un documento');
         _this2._refreshData();
         _this2.$scope.dashboard.action = action;
       });
@@ -356,7 +376,7 @@ var DocumentsCtrl = function () {
   return DocumentsCtrl;
 }();
 
-DocumentsCtrl.$inject = ['$http', '$stateParams', '$uibModal', '$scope'];
+DocumentsCtrl.$inject = ['$http', '$stateParams', '$uibModal', '$scope', 'historyServ'];
 exports.default = DocumentsCtrl;
 
 },{}],7:[function(require,module,exports){
@@ -471,7 +491,46 @@ var DocumentCtrl = function () {
 DocumentCtrl.$inject = ['$http', '$uibModalInstance', '$stateParams'];
 exports.default = DocumentCtrl;
 
-},{"angular":24}],9:[function(require,module,exports){
+},{"angular":26}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HistoryCtrl = function () {
+  function HistoryCtrl($http, $uibModalInstance, data) {
+    var _this = this;
+
+    _classCallCheck(this, HistoryCtrl);
+
+    this.userId = data.id_user;
+    this.$uibModalInstance = $uibModalInstance;
+
+    $http.get('/sena-project/api/history.php', { params: { id_user: data.id_user } }).then(function (res) {
+      console.log(res);
+      _this.all = res.data;
+    });
+  }
+
+  _createClass(HistoryCtrl, [{
+    key: 'dismissModal',
+    value: function dismissModal() {
+      this.$uibModalInstance.dismiss();
+    }
+  }]);
+
+  return HistoryCtrl;
+}();
+
+HistoryCtrl.$inject = ['$http', '$uibModalInstance', 'data'];
+exports.default = HistoryCtrl;
+
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -518,7 +577,7 @@ var ObservationCtrl = function () {
 ObservationCtrl.$inject = ['$http', '$uibModalInstance'];
 exports.default = ObservationCtrl;
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -565,7 +624,7 @@ var RequestCtrl = function () {
 RequestCtrl.$inject = ['$http', '$uibModalInstance', '$localStorage'];
 exports.default = RequestCtrl;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -601,7 +660,8 @@ var UserCtrl = function () {
       this.$http.post(this._url, this.data).then(function (res) {
         _this.$uibModalInstance.close({
           successfully: true,
-          message: 'Usuario guardado exitosamente'
+          message: 'Usuario guardado exitosamente',
+          user: _this.data
         });
       });
     }
@@ -625,7 +685,7 @@ var UserCtrl = function () {
 UserCtrl.$inject = ['$http', '$uibModalInstance', 'data', 'title'];
 exports.default = UserCtrl;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -637,13 +697,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ObservationsCtrl = function () {
-  function ObservationsCtrl($http, $uibModal, $scope) {
+  function ObservationsCtrl($http, $uibModal, $scope, historyServ) {
     _classCallCheck(this, ObservationsCtrl);
 
     this._url = '/sena-project/api/observations.php';
     this.$http = $http;
     this.$scope = $scope;
     this.$uibModal = $uibModal;
+    this.historyServ = historyServ;
     this._refreshData();
   }
 
@@ -667,6 +728,7 @@ var ObservationsCtrl = function () {
         templateUrl: 'app/views/modals/observation.html'
       }).result.then(function (action) {
         _this2.$scope.dashboard.action = action;
+        _this2.historyServ.save('Creó una observación');
         _this2._refreshData();
       });
     }
@@ -675,10 +737,10 @@ var ObservationsCtrl = function () {
   return ObservationsCtrl;
 }();
 
-ObservationsCtrl.$inject = ['$http', '$uibModal', '$scope'];
+ObservationsCtrl.$inject = ['$http', '$uibModal', '$scope', 'historyServ'];
 exports.default = ObservationsCtrl;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -725,7 +787,7 @@ var ReportCtrl = function () {
 ReportCtrl.$inject = ['$http', '$uibModalInstance'];
 exports.default = ReportCtrl;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -737,13 +799,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var ReportsCtrl = function () {
-  function ReportsCtrl($http, $uibModal, $scope) {
+  function ReportsCtrl($http, $uibModal, $scope, historyServ) {
     _classCallCheck(this, ReportsCtrl);
 
     this._url = '/sena-project/api/reports.php';
     this.$scope = $scope;
     this.$http = $http;
     this.$uibModal = $uibModal;
+    this.historyServ = historyServ;
     this._refreshData();
   }
 
@@ -766,6 +829,7 @@ var ReportsCtrl = function () {
         controller: 'ReportCtrl as report',
         templateUrl: 'app/views/modals/report.html'
       }).result.then(function (action) {
+        _this2.historyServ.save('Creó un informe');
         _this2._refreshData();
         _this2.$scope.dashboard.action = action;
       });
@@ -775,10 +839,10 @@ var ReportsCtrl = function () {
   return ReportsCtrl;
 }();
 
-ReportsCtrl.$inject = ['$http', '$uibModal', '$scope'];
+ReportsCtrl.$inject = ['$http', '$uibModal', '$scope', 'historyServ'];
 exports.default = ReportsCtrl;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -790,7 +854,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var RequestsCtrl = function () {
-  function RequestsCtrl($http, $uibModal, $scope, $state) {
+  function RequestsCtrl($http, $uibModal, $scope, $state, historyServ) {
     _classCallCheck(this, RequestsCtrl);
 
     this.$state = $state;
@@ -798,6 +862,7 @@ var RequestsCtrl = function () {
     this.$http = $http;
     this.$uibModal = $uibModal;
     this.$scope = $scope;
+    this.historyServ = historyServ;
     this._refreshData();
   }
 
@@ -806,7 +871,7 @@ var RequestsCtrl = function () {
     value: function _refreshData() {
       var _this = this;
 
-      this.$http.get(this._url, { params: { id_user: this.$scope.dashboard.user.id } }).then(function (res) {
+      this.$http.get(this._url, this.$scope.dashboard.user.role !== 'secretariado' ? { params: { id_user: this.$scope.dashboard.user.id } } : {}).then(function (res) {
         console.log(res);
         _this.all = res.data;
       });
@@ -825,6 +890,7 @@ var RequestsCtrl = function () {
         controller: 'RequestCtrl as request',
         templateUrl: 'app/views/modals/request.html'
       }).result.then(function (action) {
+        _this2.historyServ.save('Realizó una solicitud');
         _this2.action = action;
         _this2._refreshData();
       });
@@ -834,10 +900,10 @@ var RequestsCtrl = function () {
   return RequestsCtrl;
 }();
 
-RequestsCtrl.$inject = ['$http', '$uibModal', '$scope', '$state'];
+RequestsCtrl.$inject = ['$http', '$uibModal', '$scope', '$state', 'historyServ'];
 exports.default = RequestsCtrl;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -849,12 +915,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UsersCtrl = function () {
-  function UsersCtrl($http, $uibModal, $scope) {
+  function UsersCtrl($http, $uibModal, $scope, historyServ) {
     _classCallCheck(this, UsersCtrl);
 
     this.$uibModal = $uibModal;
     this.$http = $http;
     this.$scope = $scope;
+    this.historyServ = historyServ;
     this._refreshData();
   }
 
@@ -875,6 +942,7 @@ var UsersCtrl = function () {
       var _this2 = this;
 
       var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var cb = arguments[3];
 
       this.$uibModal.open({
         templateUrl: 'app/views/modals/' + view + '.html',
@@ -886,36 +954,55 @@ var UsersCtrl = function () {
           data: data
         }
       }).result.then(function (action) {
+        if (typeof cb === 'function') {
+          cb(action.user);
+        } else {
+          _this2.historyServ.save(cb);
+        }
+
         _this2.$scope.dashboard.action = action;
-        _this2._refreshData();
-      }, function () {
         _this2._refreshData();
       });
     }
   }, {
     key: 'openCreateModal',
     value: function openCreateModal() {
-      this._openModal('user', 'Crear usuario');
+      var _this3 = this;
+
+      this._openModal('user', 'Crear usuario', {}, function (user) {
+        _this3.historyServ.save('Cre\xF3 un "' + user.role + '"');
+      });
+    }
+  }, {
+    key: 'openHistoryModal',
+    value: function openHistoryModal(userId) {
+      this.$uibModal.open({
+        templateUrl: 'app/views/modals/history.html',
+        controller: 'HistoryCtrl as history',
+        resolve: {
+          data: { id_user: userId }
+        }
+      });
     }
   }, {
     key: 'openEditModal',
     value: function openEditModal(data) {
-      this._openModal('user', 'Editar usuario', data);
+      this._openModal('user', 'Editar usuario', data, 'Actualiz\xF3 el usuario con id: ' + data.id);
     }
   }, {
     key: 'openDeleteModal',
     value: function openDeleteModal(data) {
-      this._openModal('deleteUser', 'Eliminar usuario', data);
+      this._openModal('deleteUser', 'Eliminar usuario', data, 'Elimin\xF3 el usuario con id: ' + data.id);
     }
   }]);
 
   return UsersCtrl;
 }();
 
-UsersCtrl.$inject = ['$http', '$uibModal', '$scope'];
+UsersCtrl.$inject = ['$http', '$uibModal', '$scope', 'historyServ'];
 exports.default = UsersCtrl;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 var _angular = require('angular');
@@ -994,6 +1081,14 @@ var _report = require('./controllers/report');
 
 var _report2 = _interopRequireDefault(_report);
 
+var _history = require('./controllers/modals/history');
+
+var _history2 = _interopRequireDefault(_history);
+
+var _history3 = require('./services/history');
+
+var _history4 = _interopRequireDefault(_history3);
+
 var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
@@ -1011,9 +1106,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // Controllers
-_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).controller('DocumentsCtrl', _documents2.default).controller('ObservationsCtrl', _observations2.default).controller('ObservationCtrl', _observation2.default).controller('RequestsCtrl', _requests2.default).controller('RequestCtrl', _request2.default).controller('DocumentCtrl', _document2.default).controller('ReportsCtrl', _reports2.default).controller('ReportCtrl', _report2.default).run(_boot2.default); // Libraries
+_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).service('historyServ', _history4.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).controller('DocumentsCtrl', _documents2.default).controller('ObservationsCtrl', _observations2.default).controller('ObservationCtrl', _observation2.default).controller('RequestsCtrl', _requests2.default).controller('RequestCtrl', _request2.default).controller('DocumentCtrl', _document2.default).controller('ReportsCtrl', _reports2.default).controller('ReportCtrl', _report2.default).controller('HistoryCtrl', _history2.default).run(_boot2.default); // Libraries
 
-},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/documents":6,"./controllers/login":7,"./controllers/modals/document":8,"./controllers/modals/observation":9,"./controllers/modals/request":10,"./controllers/modals/user":11,"./controllers/observations":12,"./controllers/report":13,"./controllers/reports":14,"./controllers/requests":15,"./controllers/users":16,"angular":24,"angular-resource":19,"angular-ui-bootstrap":21,"angular-ui-router":22,"ngstorage":25}],18:[function(require,module,exports){
+},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/documents":6,"./controllers/login":7,"./controllers/modals/document":8,"./controllers/modals/history":9,"./controllers/modals/observation":10,"./controllers/modals/request":11,"./controllers/modals/user":12,"./controllers/observations":13,"./controllers/report":14,"./controllers/reports":15,"./controllers/requests":16,"./controllers/users":17,"./services/history":19,"angular":26,"angular-resource":21,"angular-ui-bootstrap":23,"angular-ui-router":24,"ngstorage":27}],19:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var historyServ = function () {
+  function historyServ($http, $localStorage) {
+    _classCallCheck(this, historyServ);
+
+    this._url = '/sena-project/api/history.php';
+    this.$http = $http;
+    this.$localStorage = $localStorage;
+  }
+
+  _createClass(historyServ, [{
+    key: 'save',
+    value: function save(action) {
+      this.$http.post(this._url, {
+        action: action,
+        id_user: this.$localStorage.user.id
+      }).then(function (res) {
+        console.log('Historial actualizado');
+        console.log(res);
+      });
+    }
+  }]);
+
+  return historyServ;
+}();
+
+historyServ.$inject = ['$http', '$localStorage'];
+exports.default = historyServ;
+
+},{}],20:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -1876,11 +2010,11 @@ angular.module('ngResource', ['ng']).
 
 })(window, window.angular);
 
-},{}],19:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 require('./angular-resource');
 module.exports = 'ngResource';
 
-},{"./angular-resource":18}],20:[function(require,module,exports){
+},{"./angular-resource":20}],22:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -9511,12 +9645,12 @@ angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().
 angular.module('ui.bootstrap.tooltip').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTooltipCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'); angular.$$uibTooltipCss = true; });
 angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); angular.$$uibTimepickerCss = true; });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTypeaheadCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); angular.$$uibTypeaheadCss = true; });
-},{}],21:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 require('./dist/ui-bootstrap-tpls');
 
 module.exports = 'ui.bootstrap';
 
-},{"./dist/ui-bootstrap-tpls":20}],22:[function(require,module,exports){
+},{"./dist/ui-bootstrap-tpls":22}],24:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.2
@@ -14126,7 +14260,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.9
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -46511,11 +46645,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":23}],25:[function(require,module,exports){
+},{"./angular":25}],27:[function(require,module,exports){
 (function (root, factory) {
   'use strict';
 
@@ -46754,4 +46888,4 @@ module.exports = angular;
 
 }));
 
-},{"angular":24}]},{},[17]);
+},{"angular":26}]},{},[18]);

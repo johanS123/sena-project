@@ -1,10 +1,11 @@
 export default class AssistsCtrl {
-  static $inject = ['$http', '$stateParams']
+  static $inject = ['$http', '$stateParams', 'historyServ']
 
-  constructor ($http, $stateParams) {
+  constructor ($http, $stateParams, historyServ) {
     this._url = '/sena-project/api/assists.php'
     this.$http = $http
     this.courseId = $stateParams.id
+    this.historyServ = historyServ
     this._refreshData()
   }
 
@@ -36,6 +37,7 @@ export default class AssistsCtrl {
       })
       .then(res => {
         console.log(res.data)
+        this.historyServ.save(`Registró un estudiante en el curso con id: ${this.courseId}`)
         this._refreshData()
       })
   }

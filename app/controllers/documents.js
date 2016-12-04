@@ -1,7 +1,8 @@
 export default class DocumentsCtrl {
-  static $inject = ['$http', '$stateParams', '$uibModal', '$scope']
+  static $inject = ['$http', '$stateParams', '$uibModal', '$scope', 'historyServ']
 
-  constructor ($http, $stateParams, $uibModal, $scope) {
+  constructor ($http, $stateParams, $uibModal, $scope, historyServ) {
+    this.historyServ = historyServ
     this._url = '/sena-project/api/documents.php'
     this.$http = $http
     this.$stateParams = $stateParams
@@ -24,6 +25,7 @@ export default class DocumentsCtrl {
       controller: 'DocumentCtrl as document',
       templateUrl: 'app/views/modals/document.html'
     }).result.then(action => {
+      this.historyServ.save('Subió un documento')
       this._refreshData()
       this.$scope.dashboard.action = action
     })

@@ -25,6 +25,16 @@ export default class DashboardCtrl {
     delete this.action
   }
 
+  seeHistory () {
+    this.$uibModal.open({
+      controller: 'HistoryCtrl as history',
+      templateUrl: 'app/views/modals/history.html',
+      resolve: {
+        data: { id_user: this.user.id }
+      }
+    })
+  }
+
   logout () {
     delete this.user
     delete this.$localStorage.user

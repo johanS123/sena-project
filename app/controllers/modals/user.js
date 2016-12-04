@@ -20,7 +20,8 @@ export default class UserCtrl {
       .then(res => {
         this.$uibModalInstance.close({
           successfully: true,
-          message: 'Usuario guardado exitosamente'
+          message: 'Usuario guardado exitosamente',
+          user: this.data
         })
       })
   }

@@ -20,6 +20,8 @@ import RequestCtrl from './controllers/modals/request'
 import DocumentCtrl from './controllers/modals/document'
 import ReportsCtrl from './controllers/reports'
 import ReportCtrl from './controllers/report'
+import HistoryCtrl from './controllers/modals/history'
+import historyServ from './services/history'
 
 // Configuration
 import config from './config'
@@ -29,6 +31,7 @@ import boot from './boot'
 angular
   .module('ai-edu', [uiRouter, uiBootstrap, ngResource, ngStorage.name])
   .config(config)
+  .service('historyServ', historyServ)
   .controller('DashboardCtrl', DashboardCtrl)
   .controller('LoginCtrl', LoginCtrl)
   .controller('UsersCtrl', UsersCtrl)
@@ -43,4 +46,5 @@ angular
   .controller('DocumentCtrl', DocumentCtrl)
   .controller('ReportsCtrl', ReportsCtrl)
   .controller('ReportCtrl', ReportCtrl)
+  .controller('HistoryCtrl', HistoryCtrl)
   .run(boot)

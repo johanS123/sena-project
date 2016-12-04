@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="history.dismissModal()">&times;</button>
+  <h4>Historial de acciones | Usuario con id: {{ history.userId }}</h4>
+</div>
+
+<div class="modal-body">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Acción</th>
+        <th>Fecha y hora</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr ng-if="!history.all.length">
+        <td colspan="2" class="text-center">Este usuario no ha realizado ninguna acción</td>
+      </tr>
+
+      <tr ng-repeat="record in history.all">
+        <td>{{ record.action }}</td>
+        <td>{{ record.datetime }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

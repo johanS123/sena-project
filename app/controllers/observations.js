@@ -1,11 +1,12 @@
 export default class ObservationsCtrl {
-  static $inject = ['$http', '$uibModal', '$scope']
+  static $inject = ['$http', '$uibModal', '$scope', 'historyServ']
 
-  constructor ($http, $uibModal, $scope) {
+  constructor ($http, $uibModal, $scope, historyServ) {
     this._url = '/sena-project/api/observations.php'
     this.$http = $http
     this.$scope = $scope
     this.$uibModal = $uibModal
+    this.historyServ = historyServ
     this._refreshData()
   }
 
@@ -24,6 +25,7 @@ export default class ObservationsCtrl {
       templateUrl: 'app/views/modals/observation.html'
     }).result.then(action => {
       this.$scope.dashboard.action = action
+      this.historyServ.save('Creó una observación')
       this._refreshData()
     })
   }
