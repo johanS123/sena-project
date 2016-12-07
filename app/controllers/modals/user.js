@@ -1,8 +1,9 @@
 export default class UserCtrl {
-  static $inject = ['$http', '$uibModalInstance', 'data', 'title']
+  static $inject = ['$http', '$uibModalInstance', 'data', 'title', '$localStorage']
 
-  constructor ($http, $uibModalInstance, data, title) {
+  constructor ($http, $uibModalInstance, data, title, $localStorage) {
     this.title = title
+    this.authenticated = $localStorage.user
     delete data.password // Delete encrypted password
     this.data = data
     this._url = '/sena-project/api/users.php'

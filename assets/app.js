@@ -636,10 +636,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var UserCtrl = function () {
-  function UserCtrl($http, $uibModalInstance, data, title) {
+  function UserCtrl($http, $uibModalInstance, data, title, $localStorage) {
     _classCallCheck(this, UserCtrl);
 
     this.title = title;
+    this.authenticated = $localStorage.user;
     delete data.password; // Delete encrypted password
     this.data = data;
     this._url = '/sena-project/api/users.php';
@@ -682,7 +683,7 @@ var UserCtrl = function () {
   return UserCtrl;
 }();
 
-UserCtrl.$inject = ['$http', '$uibModalInstance', 'data', 'title'];
+UserCtrl.$inject = ['$http', '$uibModalInstance', 'data', 'title', '$localStorage'];
 exports.default = UserCtrl;
 
 },{}],13:[function(require,module,exports){
