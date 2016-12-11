@@ -10,7 +10,7 @@ CREATE TABLE users(
   password VARCHAR(255) NOT NULL,
   role ENUM('administrador', 'estudiante', 'profesor', 'coordinador', 'secretariado', 'acudiente'),
   last_login DATETIME NULL,
-  PRIMARY KEY(id),
+  PRIMARY KEY (id),
   UNIQUE (email)
 );
 
@@ -26,14 +26,14 @@ CREATE TABLE history(
 CREATE TABLE courses(
   id INT(11) AUTO_INCREMENT NOT NULL,
   name VARCHAR(50) NOT NULL,
-  date_due DATETIME NOT NULL,
+  start_date DATETIME NOT NULL,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE attendances(
   id INT(11) AUTO_INCREMENT NOT NULL,
   attended BOOL NULL,
-  date_arrived DATETIME NULL,
+  arrival_time TIME NULL,
   id_user INT(11) NOT NULL,
   id_course INT(11) NOT NULL,
   PRIMARY KEY (id),

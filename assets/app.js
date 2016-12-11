@@ -240,7 +240,7 @@ var CoursesCtrl = function () {
         _this2.historyServ.save('Registr\xF3 el curso "' + course.name + '"');
 
         course.name = '';
-        course.date_due = '';
+        course.start_date = '';
 
         _this2._refreshData();
       });

@@ -31,7 +31,7 @@ export default class CoursesCtrl {
         this.historyServ.save(`Registró el curso "${course.name}"`)
 
         course.name = ''
-        course.date_due = ''
+        course.start_date = ''
 
         this._refreshData()
       })

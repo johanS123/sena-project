@@ -24,14 +24,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         if (property_exists($req, 'id')) {
             $sth = $db->prepare('
-                UPDATE attendances SET attended = :attended, date_arrived = :date_arrived
+                UPDATE attendances SET attended = :attended, arrival_time = :arrival_time
                 WHERE id = :id
             ');
 
             $sth->execute([
                 ':attended' => $req->attended,
                 ':id' => $req->id,
-                ':date_arrived' => $req->attended === 1 ? date('Y-m-d H:i:s') : null
+                ':arrival_time' => $req->attended === 1 ? date('H:i:s') : null
             ]);
         } else {
             $sth = $db->prepare('

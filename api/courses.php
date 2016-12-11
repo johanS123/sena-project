@@ -17,10 +17,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         $courses_entity->insert([
             'name' => ':name',
-            'date_due' => ':date_due'
+            'start_date' => ':start_date'
         ])->execute([
             ':name' => $req->name,
-            ':date_due' => date('Y-m-d H:i:s', strtotime($req->date_due))
+            ':start_date' => date('Y-m-d H:i:s', strtotime($req->start_date))
         ]);
     break;
 }
