@@ -934,7 +934,9 @@ var UsersCtrl = function () {
       this.$http.get('/sena-project/api/users.php').then(function (_ref) {
         var data = _ref.data;
 
-        _this.all = data;
+        _this.all = data.filter(function (user) {
+          return user.id !== _this.$scope.dashboard.user.id;
+        });
       });
     }
   }, {
@@ -1107,7 +1109,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 // Controllers
-_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default).service('historyServ', _history4.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).controller('DocumentsCtrl', _documents2.default).controller('ObservationsCtrl', _observations2.default).controller('ObservationCtrl', _observation2.default).controller('RequestsCtrl', _requests2.default).controller('RequestCtrl', _request2.default).controller('DocumentCtrl', _document2.default).controller('ReportsCtrl', _reports2.default).controller('ReportCtrl', _report2.default).controller('HistoryCtrl', _history2.default).run(_boot2.default); // Libraries
+_angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstrap2.default, _angularResource2.default, _ngstorage2.default.name]).config(_config2.default)
+// Filter for pagination (simple workaround)
+.filter('fromIndex', function () {
+  return function (data, index) {
+    if (data) {
+      console.log(index);
+      return data.slice(index);
+    }
+  };
+})
+// (end workaround)
+.service('historyServ', _history4.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).controller('DocumentsCtrl', _documents2.default).controller('ObservationsCtrl', _observations2.default).controller('ObservationCtrl', _observation2.default).controller('RequestsCtrl', _requests2.default).controller('RequestCtrl', _request2.default).controller('DocumentCtrl', _document2.default).controller('ReportsCtrl', _reports2.default).controller('ReportCtrl', _report2.default).controller('HistoryCtrl', _history2.default).run(_boot2.default); // Libraries
 
 },{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/documents":6,"./controllers/login":7,"./controllers/modals/document":8,"./controllers/modals/history":9,"./controllers/modals/observation":10,"./controllers/modals/request":11,"./controllers/modals/user":12,"./controllers/observations":13,"./controllers/report":14,"./controllers/reports":15,"./controllers/requests":16,"./controllers/users":17,"./services/history":19,"angular":26,"angular-resource":21,"angular-ui-bootstrap":23,"angular-ui-router":24,"ngstorage":27}],19:[function(require,module,exports){
 'use strict';

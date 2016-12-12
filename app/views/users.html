@@ -17,11 +17,12 @@
   </thead>
 
   <tbody>
-    <tr ng-if="users.all.length === 1">
+    <tr ng-if="!users.all.length">
       <td class="text-center" colspan="8">No hay usuarios que mostrar</td>
     </tr>
 
-    <tr ng-repeat="user in users.all | filter:query" ng-if="user.id !== dashboard.user.id">
+    <!-- TODO: Implement a workaround on pagination when the users have been filtered. A possible solution can be -> https://gist.github.com/kmaida/06d01f6b878777e2ea34 -->
+    <tr ng-repeat="user in users.all | filter:query | fromIndex:(currentPage - 1) * itemsPerPage | limitTo: itemsPerPage">
       <td>{{ user.id }}</td>
       <td>{{ user.first_name }}</td>
       <td>{{ user.last_name }}</td>
@@ -34,6 +35,12 @@
   </tbody>
 </table>
 
-<div class="text-center col-md-12">
-  <button class="btn btn-lg btn-primary" type="button" ng-click="users.openCreateModal()" ng-if="dashboard.user.role === 'administrador'">Crear usuario</button>
+<div class="row">
+  <div class="col-md-10">
+    <ul uib-pagination total-items="users.all.length" ng-model="currentPage" items-per-page="itemsPerPage = 8" style="margin: 0;"></ul>
+  </div>
+
+  <div class="col-md-2 text-right">
+    <button class="btn btn-primary" type="button" ng-click="users.openCreateModal()" ng-if="dashboard.user.role === 'administrador'">Crear usuario</button>
+  </div>
 </div>

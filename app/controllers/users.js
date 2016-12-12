@@ -13,7 +13,7 @@ export default class UsersCtrl {
     this.$http
       .get('/sena-project/api/users.php')
       .then(({ data }) => {
-        this.all = data
+        this.all = data.filter(user => user.id !== this.$scope.dashboard.user.id)
       })
   }
 

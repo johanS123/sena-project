@@ -1,12 +1,21 @@
 <h1 class="text-center">Gestión de asistencias</h1>
 
-<form ng-submit="assists.register(studentId)" class="form-inline">
-  Registrar un alumno a este curso:
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="Id del alumno" ng-model="studentId">
-    <button type="submit" class="btn btn-success">Registrar</button>
+<div class="row" style="margin: 1em 0;">
+  <div class="col-md-6">
+    <form ng-submit="assists.register(studentId)" class="form-inline">
+      <div class="form-group">
+        <label for="idStudent">Registrar un alumno a este curso:</label>
+        <input id="idStudent" type="text" class="form-control" placeholder="Id del alumno" ng-model="studentId">
+        <button type="submit" class="btn btn-success">Registrar</button>
+      </div>
+    </form>
   </div>
-</form>
+
+  <div class="col-md-6">
+    <input type="text" class="form-control" ng-model="searchStudent" placeholder="Buscar un alumno">
+  </div>
+</div>
+
 
 <table class="table">
   <thead>
@@ -23,7 +32,7 @@
       <td colspan="4" class="text-center">No hay alumnos registrados al curso seleccionado</td>
     </tr>
 
-    <tr ng-repeat="assist in assists.all" ng-class="{ 'success': assist.attended === '1', 'danger': assist.attended === '0' }">
+    <tr ng-repeat="assist in assists.all | filter:searchStudent" ng-class="{ 'success': assist.attended === '1', 'danger': assist.attended === '0' }">
       <td style="vertical-align: middle;">{{ assist.first_name }}</td>
       <td style="vertical-align: middle;">{{ assist.last_name }}</td>
       <td style="vertical-align: middle;">{{ assist.arrival_time }}</td>

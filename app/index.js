@@ -31,6 +31,14 @@ import boot from './boot'
 angular
   .module('ai-edu', [uiRouter, uiBootstrap, ngResource, ngStorage.name])
   .config(config)
+  // Filter for pagination (simple workaround)
+  .filter('fromIndex', () => (data, index) => {
+    if (data) {
+      console.log(index)
+      return data.slice(index)
+    }
+  })
+  // (end workaround)
   .service('historyServ', historyServ)
   .controller('DashboardCtrl', DashboardCtrl)
   .controller('LoginCtrl', LoginCtrl)
