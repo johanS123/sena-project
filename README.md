@@ -36,7 +36,7 @@ $ bower install
 
   Instalación de composer:
 
-  Descargar el ejecutable desde [aquí](https://getcomposer.org/Composer-Setup.exe).
+  Descargar el instalador desde [aquí](https://getcomposer.org/Composer-Setup.exe) y ejecutar.
   
   Instalación de la librería FPDF:
 
