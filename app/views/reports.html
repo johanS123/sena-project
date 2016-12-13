@@ -24,11 +24,12 @@
   </table>
 
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-8">
       <ul uib-pagination total-items="reports.all.length" ng-model="reports.currentPage" items-per-page="dashboard.itemsPerPage" style="margin: 0;"></ul>
     </div>
 
-    <div class="col-md-2 text-right">
+    <div class="col-md-4 text-right">
+      <a href="pdf/export_reports.php" class="btn btn-default">Exportar a PDF</a>
       <button class="btn btn-primary" ng-click="reports.openModal()" type="button" ng-if="dashboard.user.role === 'coordinador'">Añadir informe</button>
     </div>
   </div>

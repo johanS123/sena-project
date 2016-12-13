@@ -30,11 +30,12 @@
   </table>
 
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-8">
       <ul uib-pagination total-items="observations.all.length" ng-model="observations.currentPage" items-per-page="dashboard.itemsPerPage" style="margin: 0;"></ul>
     </div>
 
-    <div class="col-md-2 text-right">
+    <div class="col-md-4 text-right">
+      <a href="pdf/export_observations.php" class="btn btn-default">Exportar a PDF</a>
       <button type="button" class="btn btn-success" ng-click="observations.openModal()" ng-if="dashboard.user.role === 'profesor'">Crear observación</button>
     </div>
   </div>

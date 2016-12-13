@@ -43,6 +43,6 @@ export default class AssistsCtrl {
   }
 
   exportPDF () {
-    print()
+    window.location = `pdf/export_attendances.php?id_course=${this.courseId}`
   }
 }

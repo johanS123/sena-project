@@ -183,7 +183,7 @@ var AssistsCtrl = function () {
   }, {
     key: 'exportPDF',
     value: function exportPDF() {
-      print();
+      window.location = 'pdf/export_attendances.php?id_course=' + this.courseId;
     }
   }]);
 
