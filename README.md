@@ -31,6 +31,19 @@ $ npm install -g bower
 ```bash
 $ bower install
 ```
+
+### Dependencias de PHP
+
+  Instalación de composer:
+
+  Descargar el ejecutable desde [aquí](https://getcomposer.org/Composer-Setup.exe).
+  
+  Instalación de la librería FPDF:
+
+```bash
+$ composer install
+```
+
 ## Configuración del servidor local
 
   Ingresar al archivo php.ini que se encuentre en la herramienta y añadir la siguiente información:
