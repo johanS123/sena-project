@@ -1,39 +1,46 @@
 <h1 class="text-center">Gestión de cursos</h1>
 
-<div class="col-md-12">
-  <table class="table">
-    <thead>
+<div class="row">
+  <div ng-class="{
+    'col-md-6': dashboard.user.role === 'administrador',
+    'col-md-12': dashboard.user.role !== 'administrador'
+  }">
+    <table class="table">
+      <thead>
       <tr>
         <th>Id</th>
         <th>Nombre</th>
         <th>Fecha inicio</th>
       </tr>
-    </thead>
+      </thead>
 
-    <tbody>
+      <tbody>
       <tr ng-if="!courses.all.length">
         <td colspan="3">No existen cursos registrados</td>
       </tr>
 
-      <tr ng-repeat="course in courses.all">
+      <tr ng-repeat="course in courses.all | fromIndex:(courses.currentPage - 1) * dashboard.itemsPerPage | limitTo: dashboard.itemsPerPage">
         <td>{{ course.id }}</td>
         <td><a ui-sref="assists({ id: course.id })">{{ course.name }}</a></td>
         <td>{{ course.start_date }}</td>
       </tr>
-    </tbody>
-  </table>
-</div>
+      </tbody>
+    </table>
 
-<div class="col-md-12">
-  <form ng-if="dashboard.user.role === 'administrador'" name="courseForm" ng-submit="courses.save(course)" novalidate>
-    <div class="form-group">
-      <input name="name" type="text" required ng-model="course.name" class="form-control" placeholder="Nombre del curso">
-    </div>
+    <ul uib-pagination total-items="courses.all.length" ng-model="courses.currentPage" items-per-page="dashboard.itemsPerPage" style="margin: 0;"></ul>
+  </div>
 
-    <div class="form-group">
-      <input name="date_due" type="datetime-local" required ng-model="course.start_date" class="form-control" placeholder="Hora y fecha de asistencia">
-    </div>
+  <div class="col-md-6" ng-if="dashboard.user.role === 'administrador'">
+    <form name="courseForm" ng-submit="courses.save(course)" novalidate>
+      <div class="form-group">
+        <input name="name" type="text" required ng-model="course.name" class="form-control" placeholder="Nombre del curso">
+      </div>
 
-    <button type="submit" class="btn btn-info" ng-disabled="courseForm.$invalid">Guardar</button>
-  </form>
+      <div class="form-group">
+        <input name="date_due" type="datetime-local" required ng-model="course.start_date" class="form-control" placeholder="Hora y fecha de asistencia">
+      </div>
+
+      <button type="submit" class="btn btn-info" ng-disabled="courseForm.$invalid">Guardar</button>
+    </form>
+  </div>
 </div>

@@ -2,6 +2,7 @@ export default class UsersCtrl {
   static $inject = ['$http', '$uibModal', '$scope', 'historyServ']
 
   constructor ($http, $uibModal, $scope, historyServ) {
+    this.currentPage = 1
     this.$uibModal = $uibModal
     this.$http = $http
     this.$scope = $scope

@@ -17,7 +17,7 @@
         <td colspan="5" class="text-center">No existen solicitudes</td>
       </tr>
 
-      <tr ng-repeat="request in requests.all">
+      <tr ng-repeat="request in requests.all | fromIndex:(requests.currentPage - 1) * dashboard.itemsPerPage | limitTo: dashboard.itemsPerPage">
         <td>{{ request.id }}</td>
         <td>{{ request.request }}</td>
         <td>{{ request.date_request }}</td>
@@ -27,5 +27,13 @@
     </tbody>
   </table>
 
-  <button type="button" class="btn btn-primary" ng-click="requests.openModal()" ng-if="dashboard.user.role === 'acudiente'">Crear solicitud</button>
+  <div class="row">
+    <div class="col-md-10">
+      <ul uib-pagination total-items="requests.all.length" ng-model="requests.currentPage" items-per-page="dashboard.itemsPerPage" style="margin: 0;"></ul>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <button type="button" class="btn btn-primary" ng-click="requests.openModal()" ng-if="dashboard.user.role === 'acudiente'">Crear solicitud</button>
+    </div>
+  </div>
 </div>

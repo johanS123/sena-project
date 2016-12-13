@@ -2,6 +2,7 @@ export default class ReportsCtrl {
   static $inject = ['$http', '$uibModal', '$scope', 'historyServ']
 
   constructor ($http, $uibModal, $scope, historyServ) {
+    this.currentPage = 1
     this._url = '/sena-project/api/reports.php'
     this.$scope = $scope
     this.$http = $http

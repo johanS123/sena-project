@@ -2,6 +2,7 @@ export default class RequestsCtrl {
   static $inject = ['$http', '$uibModal', '$scope', '$state', 'historyServ']
 
   constructor ($http, $uibModal, $scope, $state, historyServ) {
+    this.currentPage = 1
     this.$state = $state
     this._url = '/sena-project/api/requests.php'
     this.$http = $http

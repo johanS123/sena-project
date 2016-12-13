@@ -2,6 +2,7 @@ export default class CoursesCtrl {
   static $inject = ['$http', '$scope', 'historyServ']
 
   constructor ($http, $scope, historyServ) {
+    this.currentPage = 1
     this.historyServ = historyServ
     this._url = '/sena-project/api/courses.php'
     this.$http = $http

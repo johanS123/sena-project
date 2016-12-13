@@ -2,6 +2,7 @@ export default class DocumentsCtrl {
   static $inject = ['$http', '$stateParams', '$uibModal', '$scope', 'historyServ']
 
   constructor ($http, $stateParams, $uibModal, $scope, historyServ) {
+    this.currentPage = 1
     this.historyServ = historyServ
     this._url = '/sena-project/api/documents.php'
     this.$http = $http

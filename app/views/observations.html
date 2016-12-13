@@ -18,7 +18,7 @@
         <td colspan="6" class="text-center">No existen observaciones</td>
       </tr>
 
-      <tr ng-repeat="observation in observations.all">
+      <tr ng-repeat="observation in observations.all | fromIndex:(observations.currentPage - 1) * dashboard.itemsPerPage | limitTo: dashboard.itemsPerPage">
         <td>{{ observation.id }}</td>
         <td>{{ observation.type }}</td>
         <td>{{ observation.description }}</td>
@@ -29,5 +29,13 @@
     </tbody>
   </table>
 
-  <button type="button" class="btn btn-success" ng-click="observations.openModal()" ng-if="dashboard.user.role === 'profesor'">Crear observación</button>
+  <div class="row">
+    <div class="col-md-10">
+      <ul uib-pagination total-items="observations.all.length" ng-model="observations.currentPage" items-per-page="dashboard.itemsPerPage" style="margin: 0;"></ul>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <button type="button" class="btn btn-success" ng-click="observations.openModal()" ng-if="dashboard.user.role === 'profesor'">Crear observación</button>
+    </div>
+  </div>
 </div>

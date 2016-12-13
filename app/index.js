@@ -19,7 +19,7 @@ import RequestsCtrl from './controllers/requests'
 import RequestCtrl from './controllers/modals/request'
 import DocumentCtrl from './controllers/modals/document'
 import ReportsCtrl from './controllers/reports'
-import ReportCtrl from './controllers/report'
+import ReportCtrl from './controllers/modals/report'
 import HistoryCtrl from './controllers/modals/history'
 import historyServ from './services/history'
 

@@ -2,6 +2,7 @@ export default class DashboardCtrl {
   static $inject = ['$localStorage', '$state', '$uibModal']
 
   constructor ($localStorage, $state, $uibModal) {
+    this.itemsPerPage = 5
     this.$state = $state
     this.$localStorage = $localStorage
     this.$uibModal = $uibModal

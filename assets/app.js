@@ -208,6 +208,7 @@ var CoursesCtrl = function () {
   function CoursesCtrl($http, $scope, historyServ) {
     _classCallCheck(this, CoursesCtrl);
 
+    this.currentPage = 1;
     this.historyServ = historyServ;
     this._url = '/sena-project/api/courses.php';
     this.$http = $http;
@@ -268,6 +269,7 @@ var DashboardCtrl = function () {
   function DashboardCtrl($localStorage, $state, $uibModal) {
     _classCallCheck(this, DashboardCtrl);
 
+    this.itemsPerPage = 5;
     this.$state = $state;
     this.$localStorage = $localStorage;
     this.$uibModal = $uibModal;
@@ -338,6 +340,7 @@ var DocumentsCtrl = function () {
   function DocumentsCtrl($http, $stateParams, $uibModal, $scope, historyServ) {
     _classCallCheck(this, DocumentsCtrl);
 
+    this.currentPage = 1;
     this.historyServ = historyServ;
     this._url = '/sena-project/api/documents.php';
     this.$http = $http;
@@ -588,6 +591,53 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var ReportCtrl = function () {
+  function ReportCtrl($http, $uibModalInstance) {
+    _classCallCheck(this, ReportCtrl);
+
+    this.data = {};
+    this._url = '/sena-project/api/reports.php';
+    this.$http = $http;
+    this.$uibModalInstance = $uibModalInstance;
+  }
+
+  _createClass(ReportCtrl, [{
+    key: 'dismissModal',
+    value: function dismissModal() {
+      this.$uibModalInstance.dismiss();
+    }
+  }, {
+    key: 'save',
+    value: function save() {
+      var _this = this;
+
+      this.$http.post(this._url, this.data).then(function (res) {
+        console.log(res);
+        _this.$uibModalInstance.close({
+          successfully: true,
+          message: 'Informe añadido exitosamente'
+        });
+      });
+    }
+  }]);
+
+  return ReportCtrl;
+}();
+
+ReportCtrl.$inject = ['$http', '$uibModalInstance'];
+exports.default = ReportCtrl;
+
+},{}],12:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var RequestCtrl = function () {
   function RequestCtrl($http, $uibModalInstance, $localStorage) {
     _classCallCheck(this, RequestCtrl);
@@ -624,7 +674,7 @@ var RequestCtrl = function () {
 RequestCtrl.$inject = ['$http', '$uibModalInstance', '$localStorage'];
 exports.default = RequestCtrl;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -686,7 +736,7 @@ var UserCtrl = function () {
 UserCtrl.$inject = ['$http', '$uibModalInstance', 'data', 'title', '$localStorage'];
 exports.default = UserCtrl;
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -701,6 +751,7 @@ var ObservationsCtrl = function () {
   function ObservationsCtrl($http, $uibModal, $scope, historyServ) {
     _classCallCheck(this, ObservationsCtrl);
 
+    this.currentPage = 1;
     this._url = '/sena-project/api/observations.php';
     this.$http = $http;
     this.$scope = $scope;
@@ -741,53 +792,6 @@ var ObservationsCtrl = function () {
 ObservationsCtrl.$inject = ['$http', '$uibModal', '$scope', 'historyServ'];
 exports.default = ObservationsCtrl;
 
-},{}],14:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ReportCtrl = function () {
-  function ReportCtrl($http, $uibModalInstance) {
-    _classCallCheck(this, ReportCtrl);
-
-    this.data = {};
-    this._url = '/sena-project/api/reports.php';
-    this.$http = $http;
-    this.$uibModalInstance = $uibModalInstance;
-  }
-
-  _createClass(ReportCtrl, [{
-    key: 'dismissModal',
-    value: function dismissModal() {
-      this.$uibModalInstance.dismiss();
-    }
-  }, {
-    key: 'save',
-    value: function save() {
-      var _this = this;
-
-      this.$http.post(this._url, this.data).then(function (res) {
-        console.log(res);
-        _this.$uibModalInstance.close({
-          successfully: true,
-          message: 'Informe añadido exitosamente'
-        });
-      });
-    }
-  }]);
-
-  return ReportCtrl;
-}();
-
-ReportCtrl.$inject = ['$http', '$uibModalInstance'];
-exports.default = ReportCtrl;
-
 },{}],15:[function(require,module,exports){
 'use strict';
 
@@ -803,6 +807,7 @@ var ReportsCtrl = function () {
   function ReportsCtrl($http, $uibModal, $scope, historyServ) {
     _classCallCheck(this, ReportsCtrl);
 
+    this.currentPage = 1;
     this._url = '/sena-project/api/reports.php';
     this.$scope = $scope;
     this.$http = $http;
@@ -858,6 +863,7 @@ var RequestsCtrl = function () {
   function RequestsCtrl($http, $uibModal, $scope, $state, historyServ) {
     _classCallCheck(this, RequestsCtrl);
 
+    this.currentPage = 1;
     this.$state = $state;
     this._url = '/sena-project/api/requests.php';
     this.$http = $http;
@@ -919,6 +925,7 @@ var UsersCtrl = function () {
   function UsersCtrl($http, $uibModal, $scope, historyServ) {
     _classCallCheck(this, UsersCtrl);
 
+    this.currentPage = 1;
     this.$uibModal = $uibModal;
     this.$http = $http;
     this.$scope = $scope;
@@ -1080,7 +1087,7 @@ var _reports = require('./controllers/reports');
 
 var _reports2 = _interopRequireDefault(_reports);
 
-var _report = require('./controllers/report');
+var _report = require('./controllers/modals/report');
 
 var _report2 = _interopRequireDefault(_report);
 
@@ -1122,7 +1129,7 @@ _angular2.default.module('ai-edu', [_angularUiRouter2.default, _angularUiBootstr
 // (end workaround)
 .service('historyServ', _history4.default).controller('DashboardCtrl', _dashboard2.default).controller('LoginCtrl', _login2.default).controller('UsersCtrl', _users2.default).controller('UserCtrl', _user2.default).controller('CoursesCtrl', _courses2.default).controller('AssistsCtrl', _assists2.default).controller('DocumentsCtrl', _documents2.default).controller('ObservationsCtrl', _observations2.default).controller('ObservationCtrl', _observation2.default).controller('RequestsCtrl', _requests2.default).controller('RequestCtrl', _request2.default).controller('DocumentCtrl', _document2.default).controller('ReportsCtrl', _reports2.default).controller('ReportCtrl', _report2.default).controller('HistoryCtrl', _history2.default).run(_boot2.default); // Libraries
 
-},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/documents":6,"./controllers/login":7,"./controllers/modals/document":8,"./controllers/modals/history":9,"./controllers/modals/observation":10,"./controllers/modals/request":11,"./controllers/modals/user":12,"./controllers/observations":13,"./controllers/report":14,"./controllers/reports":15,"./controllers/requests":16,"./controllers/users":17,"./services/history":19,"angular":26,"angular-resource":21,"angular-ui-bootstrap":23,"angular-ui-router":24,"ngstorage":27}],19:[function(require,module,exports){
+},{"./boot":1,"./config":2,"./controllers/assists":3,"./controllers/courses":4,"./controllers/dashboard":5,"./controllers/documents":6,"./controllers/login":7,"./controllers/modals/document":8,"./controllers/modals/history":9,"./controllers/modals/observation":10,"./controllers/modals/report":11,"./controllers/modals/request":12,"./controllers/modals/user":13,"./controllers/observations":14,"./controllers/reports":15,"./controllers/requests":16,"./controllers/users":17,"./services/history":19,"angular":26,"angular-resource":21,"angular-ui-bootstrap":23,"angular-ui-router":24,"ngstorage":27}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

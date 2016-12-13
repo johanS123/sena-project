@@ -15,7 +15,7 @@
         <td colspan="3" class="text-center">No existen reportes académicos</td>
       </tr>
 
-      <tr ng-repeat="report in reports.all">
+      <tr ng-repeat="report in reports.all | fromIndex:(reports.currentPage - 1) * dashboard.itemsPerPage | limitTo: dashboard.itemsPerPage">
         <td>{{ report.id }}</td>
         <td>{{ report.achievements }}</td>
         <td>{{ report.first_name }} {{ report.last_name }}</td>
@@ -23,5 +23,13 @@
     </tbody>
   </table>
 
-  <button class="btn btn-primary" ng-click="reports.openModal()" type="button" ng-if="dashboard.user.role === 'coordinador'">Añadir informe</button>
+  <div class="row">
+    <div class="col-md-10">
+      <ul uib-pagination total-items="reports.all.length" ng-model="reports.currentPage" items-per-page="dashboard.itemsPerPage" style="margin: 0;"></ul>
+    </div>
+
+    <div class="col-md-2 text-right">
+      <button class="btn btn-primary" ng-click="reports.openModal()" type="button" ng-if="dashboard.user.role === 'coordinador'">Añadir informe</button>
+    </div>
+  </div>
 </div>
